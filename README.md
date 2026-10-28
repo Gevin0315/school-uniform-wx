@@ -41,7 +41,7 @@
 
 1. 克隆本仓库，用微信开发者工具 **导入项目**，目录选仓库根目录。
 2. **AppID**：正式开发需替换 `project.config.json` 中的 `appid`；无 AppID 时可先用测试号/体验模式（部分云能力受限，以官方文档为准）。
-3. **云开发环境**：在 `miniprogram/app.js` 将 `CLOUD_ENV_PLACEHOLDER` 改为你的云环境 ID；在工具栏开通云开发并 **上传并部署** `cloudfunctions/` 下各函数（含 `common/seed.js` 依赖路径）。
+3. **云开发环境**：在 `miniprogram/app.js` 将常量 `CLOUD_ENV_ID`（默认占位 `replace-with-your-cloud-env-id`）改为你的云环境 ID；占位未改时自动走 **本地 seed 预览**。在工具栏开通云开发并 **上传并部署** `cloudfunctions/` 下各函数（含 `common/seed.js` 依赖路径）。
 4. 编译运行：未配置云环境 ID 时默认 **本地 seed 预览**（无需部署云函数）；选区县 → 首页 → 商品 → 购物车 → 结算 → **待支付** 订单详情。**支付为占位**，非真收款。
 5. Gate 1 管理页：首页 → 库存管理，默认 token 为 `gate1-dev-token`（上线前必须更换鉴权方式）。
 

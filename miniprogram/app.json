@@ -28,11 +28,15 @@
     "list": [
       {
         "pagePath": "pages/home/home",
-        "text": "首页"
+        "text": "首页",
+        "iconPath": "assets/tab/tab-home.png",
+        "selectedIconPath": "assets/tab/tab-home-active.png"
       },
       {
         "pagePath": "pages/mine/mine",
-        "text": "我的"
+        "text": "我的",
+        "iconPath": "assets/tab/tab-mine.png",
+        "selectedIconPath": "assets/tab/tab-mine-active.png"
       }
     ]
   },
