@@ -22,7 +22,7 @@ function pickupStatusText(order) {
     case 'pending_pickup':
       return '待自提 · 请凭核销码到店';
     case 'completed':
-      return '自提已完成';
+      return '已核销';
     default:
       return labelOrderStatus(order.status);
   }
