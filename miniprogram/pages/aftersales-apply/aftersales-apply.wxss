@@ -1,0 +1,11 @@
+textarea {
+  width: 100%;
+  min-height: 160rpx;
+  border: 1rpx solid #eee;
+  padding: 16rpx;
+  box-sizing: border-box;
+}
+
+button {
+  margin: 24rpx;
+}

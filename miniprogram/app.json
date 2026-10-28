@@ -1,0 +1,22 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/catalog/catalog",
+    "pages/product-detail/product-detail",
+    "pages/cart/cart",
+    "pages/checkout/checkout",
+    "pages/orders/orders",
+    "pages/order-detail/order-detail",
+    "pages/aftersales-apply/aftersales-apply",
+    "pages/admin-stock/admin-stock"
+  ],
+  "window": {
+    "navigationBarTitleText": "惠州校服选购",
+    "navigationBarBackgroundColor": "#1a5fb4",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f5f6f8"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

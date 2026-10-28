@@ -1,0 +1,11 @@
+<view class="compliance-banner">Gate 1 简易库存 · 占位鉴权 token</view>
+
+<block wx:for="{{skus}}" wx:key="skuId">
+  <view class="card sku-row">
+    <view>{{item.skuId}} · 尺码 {{item.size}}</view>
+    <view class="row">
+      <input type="number" value="{{item.stock}}" data-sku="{{item.skuId}}" bindinput="onStockInput" />
+      <button size="mini" data-sku="{{item.skuId}}" bindtap="saveSku">保存</button>
+    </view>
+  </view>
+</block>

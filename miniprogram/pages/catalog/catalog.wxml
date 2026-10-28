@@ -1,0 +1,15 @@
+<view class="compliance-banner">自愿选购 · {{districtName}}</view>
+
+<view class="card header-row">
+  <text>当前区县：{{districtName}}</text>
+  <button class="btn-secondary mini" size="mini" bindtap="goCart">购物车</button>
+</view>
+
+<block wx:for="{{products}}" wx:key="productId">
+  <view class="card product" data-id="{{item.productId}}" bindtap="openProduct">
+    <view class="name">{{item.name}}</view>
+    <view class="muted">{{item.typeLabel}} · 尺码 110–180</view>
+  </view>
+</block>
+
+<view wx:if="{{products.length === 0}}" class="footer-note">暂无商品，请检查云函数或种子数据</view>

@@ -1,0 +1,10 @@
+<view class="compliance-banner">订单数据不含学生个人敏感信息</view>
+
+<block wx:for="{{orders}}" wx:key="orderId">
+  <view class="card" data-id="{{item.orderId}}" bindtap="openOrder">
+    <view>{{item.orderId}}</view>
+    <view class="muted">状态：{{item.status}} · {{item.payment.note}}</view>
+  </view>
+</block>
+
+<view wx:if="{{orders.length === 0}}" class="footer-note">{{hint}}</view>

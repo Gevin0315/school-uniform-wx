@@ -1,0 +1,19 @@
+<view class="compliance-banner">7 天无理由退货说明（演示文案）</view>
+
+<view class="card">
+  <view class="muted">{{policy}}</view>
+  <view class="muted">订单：{{orderId}}</view>
+</view>
+
+<view class="card">
+  <textarea placeholder="请描述售后原因（不含学生敏感信息）" bindinput="onReasonInput" />
+</view>
+
+<view class="card muted">
+  <view>状态机占位：</view>
+  <block wx:for="{{stateRows}}" wx:key="key">
+    <view>{{item.key}} → {{item.label}}</view>
+  </block>
+</view>
+
+<button class="btn-primary" bindtap="submit">提交申请（骨架）</button>

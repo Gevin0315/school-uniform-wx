@@ -1,0 +1,29 @@
+<view class="compliance-banner">校服自愿选购，非强制、非指定商家</view>
+
+<view class="card">
+  <view class="title">请选择所在区县</view>
+  <view class="muted">样板开放：惠城区、惠东县</view>
+</view>
+
+<view class="district-list">
+  <block wx:for="{{districts}}" wx:key="districtId">
+    <view
+      class="district-item {{item.enabled ? '' : 'disabled'}}"
+      data-id="{{item.districtId}}"
+      data-name="{{item.name}}"
+      data-enabled="{{item.enabled}}"
+      bindtap="onSelectDistrict"
+    >
+      <text>{{item.name}}</text>
+      <text wx:if="{{!item.enabled}}" class="tag-disabled">即将开放</text>
+      <text wx:else class="arrow">›</text>
+    </view>
+  </block>
+</view>
+
+<view class="links card">
+  <view bindtap="goOrders" class="link-row">我的订单</view>
+  <view bindtap="goAdmin" class="link-row muted">库存管理（Gate 1）</view>
+</view>
+
+<view class="footer-note">{{complianceFooter}}</view>
