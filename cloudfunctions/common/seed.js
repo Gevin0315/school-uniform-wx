@@ -33,8 +33,8 @@ const PICKUP_POINTS = [
 const SIZES = [110, 120, 130, 140, 150, 160, 170, 180];
 
 const SEASONS = [
-  { seasonId: 'spring_autumn', label: '春秋装' },
   { seasonId: 'summer', label: '夏装' },
+  { seasonId: 'spring_autumn', label: '春秋装' },
   { seasonId: 'winter', label: '冬装' },
 ];
 
@@ -48,103 +48,85 @@ function buildSkus(productId, basePrice, stockBase) {
   }));
 }
 
-const PRODUCTS = [
-  {
-    productId: 'hc_sa_set_001',
-    districtId: 'huicheng',
-    seasonId: 'spring_autumn',
-    type: 'set',
-    typeLabel: '套装',
-    name: '惠城区春秋校服套装（样板）',
-    cover: '/assets/placeholder-product.png',
-    complianceNote: '自愿选购，非强制指定商家',
-  },
-  {
-    productId: 'hc_sa_single_001',
-    districtId: 'huicheng',
-    seasonId: 'spring_autumn',
-    type: 'single',
-    typeLabel: '单件',
-    name: '惠城区春秋校服上衣（样板）',
-    cover: '/assets/placeholder-product.png',
-    complianceNote: '自愿选购，非强制指定商家',
-  },
-  {
-    productId: 'hd_sa_set_001',
-    districtId: 'huidong',
-    seasonId: 'spring_autumn',
-    type: 'set',
-    typeLabel: '套装',
-    name: '惠东县春秋校服套装（样板）',
-    cover: '/assets/placeholder-product.png',
-    complianceNote: '自愿选购，非强制指定商家',
-  },
-];
-
-/** 套装扣减：按尺码同步扣减各组件 SKU，任一组件不足则整单失败 */
 const SET_COMPONENTS = {
   hc_sa_set_001: ['hc_sa_set_001_comp_top', 'hc_sa_set_001_comp_pants'],
   hd_sa_set_001: ['hd_sa_set_001_comp_top', 'hd_sa_set_001_comp_pants'],
+  hc_summer_set_001: ['hc_summer_set_001_comp_top', 'hc_summer_set_001_comp_pants'],
+  hd_summer_set_001: ['hd_summer_set_001_comp_top', 'hd_summer_set_001_comp_pants'],
+  hc_winter_set_001: ['hc_winter_set_001_comp_top', 'hc_winter_set_001_comp_pants'],
+  hd_winter_set_001: ['hd_winter_set_001_comp_top', 'hd_winter_set_001_comp_pants'],
 };
 
+function productRow(productId, districtId, seasonId, type, typeLabel, name) {
+  return {
+    productId,
+    districtId,
+    seasonId,
+    type,
+    typeLabel,
+    name,
+    cover: '/assets/placeholder-product.png',
+    complianceNote: type === 'component' ? '' : '自愿选购，非强制指定商家',
+  };
+}
+
+const PRODUCTS = [
+  productRow('hc_summer_set_001', 'huicheng', 'summer', 'set', '套装', '惠城区夏装校服套装（样板）'),
+  productRow('hc_summer_single_001', 'huicheng', 'summer', 'single', '单件', '惠城区夏装校服上衣（样板）'),
+  productRow('hc_sa_set_001', 'huicheng', 'spring_autumn', 'set', '套装', '惠城区春秋校服套装（样板）'),
+  productRow('hc_sa_single_001', 'huicheng', 'spring_autumn', 'single', '单件', '惠城区春秋校服上衣（样板）'),
+  productRow('hc_winter_set_001', 'huicheng', 'winter', 'set', '套装', '惠城区冬装校服套装（样板）'),
+  productRow('hc_winter_single_001', 'huicheng', 'winter', 'single', '单件', '惠城区冬装校服外套（样板）'),
+  productRow('hd_summer_set_001', 'huidong', 'summer', 'set', '套装', '惠东县夏装校服套装（样板）'),
+  productRow('hd_summer_single_001', 'huidong', 'summer', 'single', '单件', '惠东县夏装校服上衣（样板）'),
+  productRow('hd_sa_set_001', 'huidong', 'spring_autumn', 'set', '套装', '惠东县春秋校服套装（样板）'),
+  productRow('hd_sa_single_001', 'huidong', 'spring_autumn', 'single', '单件', '惠东县春秋校服上衣（样板）'),
+  productRow('hd_winter_set_001', 'huidong', 'winter', 'set', '套装', '惠东县冬装校服套装（样板）'),
+  productRow('hd_winter_single_001', 'huidong', 'winter', 'single', '单件', '惠东县冬装校服外套（样板）'),
+];
+
 const PRODUCTS_WITH_COMPONENTS = [
-  {
-    productId: 'hc_sa_set_001_comp_top',
-    districtId: 'huicheng',
-    seasonId: 'spring_autumn',
-    type: 'component',
-    typeLabel: '套装组件',
-    name: '惠城区春秋套装-上衣（库存件）',
-    cover: '/assets/placeholder-product.png',
-    complianceNote: '',
-  },
-  {
-    productId: 'hc_sa_set_001_comp_pants',
-    districtId: 'huicheng',
-    seasonId: 'spring_autumn',
-    type: 'component',
-    typeLabel: '套装组件',
-    name: '惠城区春秋套装-下装（库存件）',
-    cover: '/assets/placeholder-product.png',
-    complianceNote: '',
-  },
-  {
-    productId: 'hd_sa_set_001_comp_top',
-    districtId: 'huidong',
-    seasonId: 'spring_autumn',
-    type: 'component',
-    typeLabel: '套装组件',
-    name: '惠东县春秋套装-上衣（库存件）',
-    cover: '/assets/placeholder-product.png',
-    complianceNote: '',
-  },
-  {
-    productId: 'hd_sa_set_001_comp_pants',
-    districtId: 'huidong',
-    seasonId: 'spring_autumn',
-    type: 'component',
-    typeLabel: '套装组件',
-    name: '惠东县春秋套装-下装（库存件）',
-    cover: '/assets/placeholder-product.png',
-    complianceNote: '',
-  },
+  productRow('hc_summer_set_001_comp_top', 'huicheng', 'summer', 'component', '套装组件', '惠城区夏装套装-上衣（库存件）'),
+  productRow('hc_summer_set_001_comp_pants', 'huicheng', 'summer', 'component', '套装组件', '惠城区夏装套装-下装（库存件）'),
+  productRow('hc_sa_set_001_comp_top', 'huicheng', 'spring_autumn', 'component', '套装组件', '惠城区春秋套装-上衣（库存件）'),
+  productRow('hc_sa_set_001_comp_pants', 'huicheng', 'spring_autumn', 'component', '套装组件', '惠城区春秋套装-下装（库存件）'),
+  productRow('hc_winter_set_001_comp_top', 'huicheng', 'winter', 'component', '套装组件', '惠城区冬装套装-上衣（库存件）'),
+  productRow('hc_winter_set_001_comp_pants', 'huicheng', 'winter', 'component', '套装组件', '惠城区冬装套装-下装（库存件）'),
+  productRow('hd_summer_set_001_comp_top', 'huidong', 'summer', 'component', '套装组件', '惠东县夏装套装-上衣（库存件）'),
+  productRow('hd_summer_set_001_comp_pants', 'huidong', 'summer', 'component', '套装组件', '惠东县夏装套装-下装（库存件）'),
+  productRow('hd_sa_set_001_comp_top', 'huidong', 'spring_autumn', 'component', '套装组件', '惠东县春秋套装-上衣（库存件）'),
+  productRow('hd_sa_set_001_comp_pants', 'huidong', 'spring_autumn', 'component', '套装组件', '惠东县春秋套装-下装（库存件）'),
+  productRow('hd_winter_set_001_comp_top', 'huidong', 'winter', 'component', '套装组件', '惠东县冬装套装-上衣（库存件）'),
+  productRow('hd_winter_set_001_comp_pants', 'huidong', 'winter', 'component', '套装组件', '惠东县冬装套装-下装（库存件）'),
 ];
 
 const ALL_PRODUCTS = [...PRODUCTS, ...PRODUCTS_WITH_COMPONENTS];
 
-/** 套装售价 SKU（展示用；库存以组件最小值为准） */
-const SET_SALE_SKUS = [
-  ...buildSkus('hc_sa_set_001', 19800, 999),
-  ...buildSkus('hd_sa_set_001', 19800, 999),
-];
-
 const SKUS = [
-  ...SET_SALE_SKUS,
+  ...buildSkus('hc_summer_set_001', 16800, 999),
+  ...buildSkus('hc_summer_single_001', 6800, 55),
+  ...buildSkus('hc_sa_set_001', 19800, 999),
   ...buildSkus('hc_sa_single_001', 8800, 40),
+  ...buildSkus('hc_winter_set_001', 22800, 999),
+  ...buildSkus('hc_winter_single_001', 9800, 35),
+  ...buildSkus('hd_summer_set_001', 16800, 999),
+  ...buildSkus('hd_summer_single_001', 6800, 50),
+  ...buildSkus('hd_sa_set_001', 19800, 999),
+  ...buildSkus('hd_sa_single_001', 8800, 42),
+  ...buildSkus('hd_winter_set_001', 22800, 999),
+  ...buildSkus('hd_winter_single_001', 9800, 33),
+  ...buildSkus('hc_summer_set_001_comp_top', 0, 60),
+  ...buildSkus('hc_summer_set_001_comp_pants', 0, 58),
   ...buildSkus('hc_sa_set_001_comp_top', 0, 50),
   ...buildSkus('hc_sa_set_001_comp_pants', 0, 48),
+  ...buildSkus('hc_winter_set_001_comp_top', 0, 42),
+  ...buildSkus('hc_winter_set_001_comp_pants', 0, 40),
+  ...buildSkus('hd_summer_set_001_comp_top', 0, 52),
+  ...buildSkus('hd_summer_set_001_comp_pants', 0, 50),
   ...buildSkus('hd_sa_set_001_comp_top', 0, 45),
   ...buildSkus('hd_sa_set_001_comp_pants', 0, 44),
+  ...buildSkus('hd_winter_set_001_comp_top', 0, 38),
+  ...buildSkus('hd_winter_set_001_comp_pants', 0, 36),
 ];
 
 /** 内存库存覆盖（adminAdjustStock 调试用，无云库时生效） */
@@ -168,9 +150,6 @@ function getCatalog() {
   };
 }
 
-/**
- * 原子式扣减（先校验全部，再一次性扣减，避免部分超卖）
- */
 function deductSkuStockBatch(deductions) {
   const catalog = getCatalog();
   const stockMap = new Map(catalog.skus.map((s) => [s.skuId, s.stock]));

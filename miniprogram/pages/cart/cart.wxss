@@ -1,5 +1,34 @@
-.item .name {
+.row-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.name {
   font-weight: 600;
+  flex: 1;
+}
+
+.delete {
+  color: #c0392b;
+  font-size: 24rpx;
+}
+
+.components {
+  margin: 12rpx 0;
+  padding: 12rpx;
+  background: #f8f9fa;
+  border-radius: 8rpx;
+}
+
+.comp-title {
+  font-size: 22rpx;
+  color: #666;
+}
+
+.comp-line {
+  font-size: 22rpx;
+  margin-top: 4rpx;
 }
 
 .row {
@@ -10,19 +39,25 @@
 }
 
 .qty text {
-  padding: 8rpx 20rpx;
-  background: #eee;
-  margin: 0 8rpx;
+  display: inline-block;
+  width: 56rpx;
+  text-align: center;
+  padding: 8rpx;
+  background: #f0f0f0;
   border-radius: 6rpx;
+}
+
+.qty .num {
+  background: transparent;
 }
 
 .bar {
   position: fixed;
-  bottom: 0;
   left: 0;
   right: 0;
-  background: #fff;
+  bottom: 0;
   padding: 24rpx;
+  background: #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;

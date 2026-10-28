@@ -1,35 +1,88 @@
+.hero-cover,
+.placeholder-cover {
+  width: 100%;
+  height: 320rpx;
+  border-radius: 12rpx;
+  background: linear-gradient(135deg, #e8eef5, #d0dce8);
+  margin-bottom: 16rpx;
+}
+
 .name {
-  font-size: 34rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.price {
+  margin-top: 12rpx;
+  color: #c0392b;
+  font-size: 36rpx;
   font-weight: 600;
 }
 
 .section-title {
-  margin-bottom: 16rpx;
   font-weight: 600;
+  margin-bottom: 16rpx;
 }
 
 .size-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 16rpx;
+  gap: 12rpx;
 }
 
 .size-chip {
-  padding: 12rpx 24rpx;
-  background: #eee;
+  padding: 12rpx 20rpx;
+  border: 1rpx solid #ddd;
   border-radius: 8rpx;
+  font-size: 24rpx;
 }
 
 .size-chip.active {
-  background: #1a5fb4;
-  color: #fff;
+  border-color: #1a5fb4;
+  background: #e8f0fa;
+  color: #1a5fb4;
 }
 
-.price {
+.stock-line {
+  margin-top: 16rpx;
+  font-size: 24rpx;
+}
+
+.qty-row {
   margin-top: 24rpx;
-  color: #c0392b;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.add-btn {
-  margin: 24rpx;
+.qty text {
+  display: inline-block;
+  width: 56rpx;
+  text-align: center;
+  padding: 8rpx;
+  background: #f0f0f0;
+  border-radius: 6rpx;
+}
+
+.qty .num {
+  background: transparent;
+  min-width: 48rpx;
+}
+
+.policy {
+  font-size: 24rpx;
+  line-height: 1.6;
+}
+
+.action-bar {
+  display: flex;
+  gap: 16rpx;
+  padding: 24rpx;
+  position: sticky;
+  bottom: 0;
+  background: #f5f6f8;
+}
+
+.flex {
+  flex: 1;
 }

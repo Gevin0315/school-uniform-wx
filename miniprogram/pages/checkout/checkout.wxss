@@ -3,13 +3,28 @@
   margin-bottom: 16rpx;
 }
 
-label {
+.radio-line {
   display: block;
-  margin: 12rpx 0;
+  padding: 12rpx 0;
 }
 
 input {
   border-bottom: 1rpx solid #eee;
   padding: 16rpx 0;
   margin-bottom: 8rpx;
+}
+
+.picker-line {
+  padding: 16rpx 0;
+  color: #1a5fb4;
+}
+
+.amount {
+  font-size: 32rpx;
+  margin-bottom: 24rpx;
+}
+
+.privacy-note {
+  padding: 12rpx 24rpx 0;
+  font-size: 22rpx;
 }

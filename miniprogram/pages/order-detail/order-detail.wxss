@@ -1,12 +1,71 @@
 .row {
-  margin-bottom: 12rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 8rpx 0;
+  gap: 16rpx;
 }
 
 .label {
-  color: #666;
-  margin-right: 16rpx;
+  color: #888;
+  flex-shrink: 0;
 }
 
-button {
-  margin: 24rpx;
+.value {
+  text-align: right;
+  flex: 1;
+}
+
+.status {
+  color: #e65100;
+  font-weight: 600;
+}
+
+.price {
+  color: #c0392b;
+  font-weight: 600;
+}
+
+.section-title {
+  font-weight: 600;
+  margin-bottom: 16rpx;
+}
+
+.line-item {
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.line-item:last-child {
+  border-bottom: none;
+}
+
+.name {
+  font-weight: 500;
+}
+
+.line-price {
+  margin-top: 8rpx;
+  text-align: right;
+}
+
+.pickup .code {
+  font-family: monospace;
+  font-weight: 700;
+  color: #1a5fb4;
+  letter-spacing: 2rpx;
+}
+
+.pay-block {
+  padding: 24rpx;
+}
+
+.pay-hint {
+  text-align: center;
+  margin-top: 12rpx;
+  font-size: 22rpx;
+}
+
+.after-btn {
+  margin: 0 24rpx 48rpx;
 }
