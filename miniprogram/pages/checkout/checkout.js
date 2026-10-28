@@ -5,6 +5,10 @@ const {
   clearCart,
   fetchCatalog,
 } = require('../../utils/catalog');
+const {
+  effectiveLineStock,
+  formatStockFailureMessage,
+} = require('../../utils/stock');
 
 Page({
   data: {
@@ -28,8 +32,27 @@ Page({
       const pickupPoints = (data.pickupPoints || []).filter(
         (p) => p.districtId === app.globalData.districtId
       );
+      const productsById = new Map(
+        (data.products || []).map((p) => [p.productId, p])
+      );
+      const stockErrors = [];
+      for (const line of items) {
+        const product = productsById.get(line.productId);
+        const available = effectiveLineStock(product, line.size, data);
+        if (available < (line.qty || 1)) {
+          stockErrors.push(line.name);
+        }
+      }
+      if (stockErrors.length > 0) {
+        wx.showModal({
+          title: '库存不足',
+          content: '成套需各组件均有货，以下商品无法整单购买：' + stockErrors.join('、'),
+          showCancel: false,
+        });
+      }
       this.setData({
         items,
+        catalog: data,
         totalText: formatCent(cartTotalCent(items)),
         pickupPoints,
         districtName: app.globalData.districtName,
@@ -101,7 +124,12 @@ Page({
       .then((res) => {
         const result = res.result || {};
         if (!result.ok) {
-          wx.showToast({ title: result.message || '下单失败', icon: 'none' });
+          wx.hideLoading();
+          wx.showModal({
+            title: '无法下单',
+            content: formatStockFailureMessage(result),
+            showCancel: false,
+          });
           return;
         }
         return wx.cloud

@@ -21,7 +21,7 @@ Page({
   loadProducts(districtId) {
     fetchCatalog().then((data) => {
       const products = (data.products || []).filter(
-        (p) => p.districtId === districtId
+        (p) => p.districtId === districtId && p.type !== 'component'
       );
       this.setData({
         products,

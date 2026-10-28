@@ -1,21 +1,18 @@
 const cloud = require('wx-server-sdk');
+const { reserveAndDeductStock } = require('../common/stock');
 
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 
 const db = cloud.database();
 
 const ORDER_STATUS = {
-  CREATED: 'created',
   PENDING_PAY: 'pending_pay',
-  PAID_MOCK: 'paid_mock_test_only',
-  CANCELLED: 'cancelled',
 };
 
 /**
- * 创建订单（不含真实支付）
- * @param {object} event - items, districtId, fulfillment, contact
+ * 创建订单：校验并扣减库存（套装按组件 SKU 全量扣减，任一不足则整单失败）
  */
-exports.main = async (event, context) => {
+exports.main = async (event) => {
   const wxContext = cloud.getWXContext();
   const {
     items = [],
@@ -32,6 +29,11 @@ exports.main = async (event, context) => {
     return { ok: false, code: 'INVALID_FULFILLMENT', message: '请选择配送方式' };
   }
 
+  const stockResult = await reserveAndDeductStock(db, items);
+  if (!stockResult.ok) {
+    return stockResult;
+  }
+
   const orderId = `ord_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
   const now = db.serverDate();
   const order = {
@@ -39,6 +41,7 @@ exports.main = async (event, context) => {
     openid: wxContext.OPENID,
     districtId,
     items,
+    stockDeductions: stockResult.stockDeductions,
     fulfillment,
     contact,
     remark,
@@ -56,7 +59,7 @@ exports.main = async (event, context) => {
   try {
     await db.collection('orders').add({ data: order });
   } catch (err) {
-    console.warn('[createOrder] 写库失败，返回内存订单占位', err);
+    console.warn('[createOrder] 写库失败，库存已扣减（seed 模式）或需人工核对', err);
   }
 
   return {
@@ -64,6 +67,7 @@ exports.main = async (event, context) => {
     orderId,
     status: order.status,
     paymentNote: order.payment.note,
+    stockDeductions: stockResult.stockDeductions,
     order,
   };
 };

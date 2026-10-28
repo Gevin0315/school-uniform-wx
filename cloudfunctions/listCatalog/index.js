@@ -19,6 +19,7 @@ exports.main = async () => {
         productsCol.get(),
         db.collection('skus').get(),
       ]);
+      const { SET_COMPONENTS } = require('../common/seed');
       return {
         ok: true,
         source: 'database',
@@ -27,6 +28,7 @@ exports.main = async () => {
           pickupPoints: pickupPoints.data,
           products: products.data,
           skus: skus.data,
+          setComponents: SET_COMPONENTS,
           seasons: [
             { seasonId: 'spring_autumn', label: '春秋装' },
             { seasonId: 'summer', label: '夏装' },

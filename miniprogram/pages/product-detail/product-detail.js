@@ -1,8 +1,10 @@
 const { fetchCatalog, addToCart, formatCent } = require('../../utils/catalog');
+const { effectiveLineStock } = require('../../utils/stock');
 
 Page({
   data: {
     product: null,
+    catalog: null,
     skus: [],
     selectedSize: null,
     selectedSku: null,
@@ -18,6 +20,7 @@ Page({
       const sizes = data.sizes || [110, 120, 130, 140, 150, 160, 170, 180];
       this.setData({
         product,
+        catalog: data,
         skus,
         sizeChart: sizes,
       });
@@ -30,11 +33,17 @@ Page({
   pickSize(e) {
     const size = Number(e.currentTarget.dataset.size);
     const sku = this.data.skus.find((s) => s.size === size);
+    const { product, catalog } = this.data;
+    const stock = product
+      ? effectiveLineStock(product, size, catalog)
+      : sku
+        ? sku.stock
+        : 0;
     this.setData({
       selectedSize: size,
       selectedSku: sku,
       priceText: sku ? formatCent(sku.priceCent) : '',
-      stock: sku ? sku.stock : 0,
+      stock,
     });
   },
 
@@ -48,6 +57,7 @@ Page({
     addToCart({
       skuId: selectedSku.skuId,
       productId: product.productId,
+      productType: product.type,
       name: product.name,
       size: selectedSku.size,
       priceCent: selectedSku.priceCent,

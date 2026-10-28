@@ -81,10 +81,70 @@ const PRODUCTS = [
   },
 ];
 
+/** 套装扣减：按尺码同步扣减各组件 SKU，任一组件不足则整单失败 */
+const SET_COMPONENTS = {
+  hc_sa_set_001: ['hc_sa_set_001_comp_top', 'hc_sa_set_001_comp_pants'],
+  hd_sa_set_001: ['hd_sa_set_001_comp_top', 'hd_sa_set_001_comp_pants'],
+};
+
+const PRODUCTS_WITH_COMPONENTS = [
+  {
+    productId: 'hc_sa_set_001_comp_top',
+    districtId: 'huicheng',
+    seasonId: 'spring_autumn',
+    type: 'component',
+    typeLabel: '套装组件',
+    name: '惠城区春秋套装-上衣（库存件）',
+    cover: '/assets/placeholder-product.png',
+    complianceNote: '',
+  },
+  {
+    productId: 'hc_sa_set_001_comp_pants',
+    districtId: 'huicheng',
+    seasonId: 'spring_autumn',
+    type: 'component',
+    typeLabel: '套装组件',
+    name: '惠城区春秋套装-下装（库存件）',
+    cover: '/assets/placeholder-product.png',
+    complianceNote: '',
+  },
+  {
+    productId: 'hd_sa_set_001_comp_top',
+    districtId: 'huidong',
+    seasonId: 'spring_autumn',
+    type: 'component',
+    typeLabel: '套装组件',
+    name: '惠东县春秋套装-上衣（库存件）',
+    cover: '/assets/placeholder-product.png',
+    complianceNote: '',
+  },
+  {
+    productId: 'hd_sa_set_001_comp_pants',
+    districtId: 'huidong',
+    seasonId: 'spring_autumn',
+    type: 'component',
+    typeLabel: '套装组件',
+    name: '惠东县春秋套装-下装（库存件）',
+    cover: '/assets/placeholder-product.png',
+    complianceNote: '',
+  },
+];
+
+const ALL_PRODUCTS = [...PRODUCTS, ...PRODUCTS_WITH_COMPONENTS];
+
+/** 套装售价 SKU（展示用；库存以组件最小值为准） */
+const SET_SALE_SKUS = [
+  ...buildSkus('hc_sa_set_001', 19800, 999),
+  ...buildSkus('hd_sa_set_001', 19800, 999),
+];
+
 const SKUS = [
-  ...buildSkus('hc_sa_set_001', 19800, 50),
+  ...SET_SALE_SKUS,
   ...buildSkus('hc_sa_single_001', 8800, 40),
-  ...buildSkus('hd_sa_set_001', 19800, 45),
+  ...buildSkus('hc_sa_set_001_comp_top', 0, 50),
+  ...buildSkus('hc_sa_set_001_comp_pants', 0, 48),
+  ...buildSkus('hd_sa_set_001_comp_top', 0, 45),
+  ...buildSkus('hd_sa_set_001_comp_pants', 0, 44),
 ];
 
 /** 内存库存覆盖（adminAdjustStock 调试用，无云库时生效） */
@@ -101,10 +161,53 @@ function getCatalog() {
     districts: DISTRICTS,
     pickupPoints: PICKUP_POINTS,
     seasons: SEASONS,
-    products: PRODUCTS,
+    products: ALL_PRODUCTS,
     skus,
     sizes: SIZES,
+    setComponents: SET_COMPONENTS,
   };
+}
+
+/**
+ * 原子式扣减（先校验全部，再一次性扣减，避免部分超卖）
+ */
+function deductSkuStockBatch(deductions) {
+  const catalog = getCatalog();
+  const stockMap = new Map(catalog.skus.map((s) => [s.skuId, s.stock]));
+
+  for (const { skuId, qty } of deductions) {
+    const available = stockMap.get(skuId);
+    if (available === undefined || available < qty) {
+      return {
+        ok: false,
+        code: 'INSUFFICIENT_STOCK',
+        message: '库存不足，成套商品需各组件均有货，整单无法提交',
+        failures: [
+          {
+            skuId,
+            need: qty,
+            available: available ?? 0,
+          },
+        ],
+      };
+    }
+  }
+
+  const stockDeductions = [];
+  for (const { skuId, qty } of deductions) {
+    const before = stockMap.get(skuId);
+    const after = before - qty;
+    setSkuStock(skuId, after);
+    stockMap.set(skuId, after);
+    stockDeductions.push({
+      skuId,
+      qty,
+      stockBefore: before,
+      stockAfter: after,
+    });
+  }
+
+  return { ok: true, stockDeductions };
 }
 
 function setSkuStock(skuId, stock) {
@@ -118,9 +221,11 @@ function setSkuStock(skuId, stock) {
 module.exports = {
   DISTRICTS,
   PICKUP_POINTS,
-  PRODUCTS,
+  PRODUCTS: ALL_PRODUCTS,
   SKUS,
   SIZES,
+  SET_COMPONENTS,
   getCatalog,
   setSkuStock,
+  deductSkuStockBatch,
 };
