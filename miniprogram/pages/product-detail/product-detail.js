@@ -1,5 +1,6 @@
 const { fetchCatalog, addToCart, formatCent } = require('../../utils/catalog');
 const { effectiveLineStock } = require('../../utils/stock');
+const { RETURN_POLICY_COPY } = require('../../utils/aftersales');
 
 Page({
   data: {
@@ -9,6 +10,8 @@ Page({
     selectedSize: null,
     selectedSku: null,
     sizeChart: [],
+    returnPolicy: RETURN_POLICY_COPY,
+    qty: 1,
   },
 
   onLoad(query) {
@@ -25,7 +28,7 @@ Page({
         sizeChart: sizes,
       });
       if (!product || product.districtId !== app.globalData.districtId) {
-        wx.showToast({ title: '请先在首页选择区县', icon: 'none' });
+        wx.showToast({ title: '请先选择区县', icon: 'none' });
       }
     });
   },
@@ -47,14 +50,24 @@ Page({
     });
   },
 
-  addCart() {
-    const { selectedSku, product } = this.data;
+  changeQty(e) {
+    const delta = Number(e.currentTarget.dataset.delta);
+    const qty = Math.max(1, Math.min(99, (this.data.qty || 1) + delta));
+    this.setData({ qty });
+  },
+
+  buildCartEntry() {
+    const { selectedSku, product, qty } = this.data;
     const app = getApp();
-    if (!selectedSku || selectedSku.stock <= 0) {
-      wx.showToast({ title: '请选择有库存的尺码', icon: 'none' });
-      return;
+    if (!selectedSku || !product) {
+      return null;
     }
-    addToCart({
+    const stock = effectiveLineStock(product, selectedSku.size, this.data.catalog);
+    if (stock < qty) {
+      wx.showToast({ title: '库存不足', icon: 'none' });
+      return null;
+    }
+    return {
       skuId: selectedSku.skuId,
       productId: product.productId,
       productType: product.type,
@@ -63,7 +76,32 @@ Page({
       priceCent: selectedSku.priceCent,
       districtId: app.globalData.districtId,
       typeLabel: product.typeLabel,
-    });
+      qty,
+    };
+  },
+
+  addCart() {
+    const entry = this.buildCartEntry();
+    if (!entry) {
+      wx.showToast({ title: '请选择有库存的尺码', icon: 'none' });
+      return;
+    }
+    addToCart(entry);
     wx.showToast({ title: '已加入购物车' });
+  },
+
+  addSetBundle() {
+    const { product } = this.data;
+    if (!product || product.type !== 'set') {
+      this.addCart();
+      return;
+    }
+    const entry = this.buildCartEntry();
+    if (!entry) {
+      return;
+    }
+    addToCart(entry);
+    wx.showToast({ title: '成套已加购' });
+    wx.navigateTo({ url: '/pages/cart/cart' });
   },
 });

@@ -1,0 +1,14 @@
+<view class="compliance-banner">自愿选购 · 非强制指定商家</view>
+
+<view class="card profile">
+  <view class="title">我的</view>
+  <view class="muted">当前区县：{{districtName}}</view>
+  <view class="link" bindtap="goDistrict">更换区县 ›</view>
+</view>
+
+<view class="card menu">
+  <view class="menu-item" bindtap="goOrders">我的订单</view>
+  <view class="menu-item" bindtap="goCart">购物车</view>
+  <view class="menu-item" bindtap="goAddress">收货地址</view>
+  <view class="menu-item" bindtap="goRules">规则与隐私</view>
+</view>

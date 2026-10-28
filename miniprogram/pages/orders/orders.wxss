@@ -1,1 +1,24 @@
-/* 使用全局 card 样式 */
+.order-card {
+  padding: 24rpx;
+}
+
+.row-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status {
+  font-weight: 600;
+  color: #1a5fb4;
+}
+
+.amount {
+  color: #c0392b;
+  font-weight: 600;
+}
+
+.order-id {
+  margin-top: 8rpx;
+  font-size: 22rpx;
+}

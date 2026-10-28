@@ -1,24 +1,43 @@
+const { loadOrders } = require('../../utils/orders');
+const { enrichOrderList } = require('../../utils/orderView');
+
 Page({
   data: {
     orders: [],
-    hint: 'Gate 1：订单列表需云数据库 orders 集合；本地可先查看最近下单详情页',
+    hint: '暂无订单，完成选购后可在此查看',
   },
 
   onShow() {
-    this.loadOrders();
+    this.loadOrderList();
   },
 
-  loadOrders() {
+  loadOrderList() {
+    const local = enrichOrderList(loadOrders());
+    if (local.length > 0) {
+      this.setData({ orders: local, hint: '' });
+      return;
+    }
+
+    const app = getApp();
+    if (app.globalData.useLocalPreview !== false || !wx.cloud) {
+      this.setData({ orders: [], hint: '暂无订单，完成选购后可在此查看' });
+      return;
+    }
+
     const db = wx.cloud.database();
     db.collection('orders')
       .orderBy('createdAt', 'desc')
       .limit(20)
       .get()
       .then((res) => {
-        this.setData({ orders: res.data || [] });
+        const orders = enrichOrderList(res.data || []);
+        this.setData({
+          orders,
+          hint: orders.length ? '' : '暂无订单',
+        });
       })
       .catch(() => {
-        this.setData({ orders: [] });
+        this.setData({ orders: [], hint: '加载失败，请稍后重试' });
       });
   },
 

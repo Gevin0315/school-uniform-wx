@@ -1,15 +1,37 @@
 <view class="compliance-banner">自愿选购 · {{districtName}}</view>
 
-<view class="card header-row">
-  <text>当前区县：{{districtName}}</text>
+<view class="toolbar card">
+  <button class="btn-primary set-btn" size="mini" bindtap="oneClickSet">一键成套</button>
   <button class="btn-secondary mini" size="mini" bindtap="goCart">购物车</button>
 </view>
 
-<block wx:for="{{products}}" wx:key="productId">
-  <view class="card product" data-id="{{item.productId}}" bindtap="openProduct">
-    <view class="name">{{item.name}}</view>
-    <view class="muted">{{item.typeLabel}} · 尺码 110–180</view>
+<view class="season-tabs">
+  <view
+    class="tab {{filterSeason === '' ? 'active' : ''}}"
+    data-season=""
+    bindtap="onSeasonTap"
+  >全部</view>
+  <block wx:for="{{seasons}}" wx:key="seasonId">
+    <view
+      class="tab {{filterSeason === item.seasonId ? 'active' : ''}}"
+      data-season="{{item.seasonId}}"
+      bindtap="onSeasonTap"
+    >{{item.label}}</view>
+  </block>
+</view>
+
+<block wx:for="{{displayProducts}}" wx:key="productId">
+  <view class="card product-card" data-id="{{item.productId}}" bindtap="openProduct">
+    <view class="cover placeholder-cover" />
+    <view class="info">
+      <view class="name">{{item.name}}</view>
+      <view class="muted">{{item.typeLabel}}</view>
+      <view class="meta-row">
+        <text class="price">¥ {{item.priceText}}</text>
+        <text class="stock stock-{{item.stockLevel}}">{{item.stockText}}</text>
+      </view>
+    </view>
   </view>
 </block>
 
-<view wx:if="{{products.length === 0}}" class="footer-note">暂无商品，请检查云函数或种子数据</view>
+<view wx:if="{{displayProducts.length === 0}}" class="footer-note">暂无商品，请切换季节或区县</view>

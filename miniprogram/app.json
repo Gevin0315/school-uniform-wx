@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/home/home",
+    "pages/district-select/district-select",
     "pages/catalog/catalog",
     "pages/product-detail/product-detail",
     "pages/cart/cart",
@@ -8,6 +9,9 @@
     "pages/orders/orders",
     "pages/order-detail/order-detail",
     "pages/aftersales-apply/aftersales-apply",
+    "pages/mine/mine",
+    "pages/address/address",
+    "pages/rules/rules",
     "pages/admin-stock/admin-stock"
   ],
   "window": {
@@ -15,6 +19,22 @@
     "navigationBarBackgroundColor": "#1a5fb4",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#f5f6f8"
+  },
+  "tabBar": {
+    "color": "#666666",
+    "selectedColor": "#1a5fb4",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的"
+      }
+    ]
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json",

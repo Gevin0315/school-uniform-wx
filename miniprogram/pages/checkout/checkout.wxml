@@ -1,32 +1,36 @@
-<view class="compliance-banner">支付为 mock 演示，非真收款</view>
+<view class="compliance-banner">提交后进入待支付，支付按钮为占位（非真收款）</view>
+<view class="privacy-note muted">隐私：仅收集必要收货信息（姓名、电话、地址），不采集学生学籍等敏感信息。</view>
 
 <view class="card">
-  <view class="section">配送方式</view>
+  <view class="section">配送方式（二选一）</view>
   <radio-group bindchange="setFulfillment">
-    <label><radio value="express" checked="{{fulfillmentType === 'express'}}"/> 快递寄送</label>
-    <label><radio value="pickup" checked="{{fulfillmentType === 'pickup'}}"/> 区县自提（虚拟点）</label>
+    <label class="radio-line">
+      <radio value="express" checked="{{fulfillmentType === 'express'}}"/> 快递寄送（填写地址）
+    </label>
+    <label class="radio-line">
+      <radio value="pickup" checked="{{fulfillmentType === 'pickup'}}"/> 区县虚拟自提
+    </label>
   </radio-group>
 </view>
 
 <view class="card" wx:if="{{fulfillmentType === 'express'}}">
-  <input placeholder="收货人" data-field="name" bindinput="onInput" />
-  <input placeholder="手机号" type="number" data-field="phone" bindinput="onInput" />
-  <input placeholder="详细地址" data-field="detail" bindinput="onInput" />
+  <view class="section">收货地址</view>
+  <input placeholder="收货人" value="{{address.name}}" data-field="name" bindinput="onInput" />
+  <input placeholder="手机号" type="number" value="{{address.phone}}" data-field="phone" bindinput="onInput" />
+  <input placeholder="详细地址" value="{{address.detail}}" data-field="detail" bindinput="onInput" />
 </view>
 
 <view class="card" wx:if="{{fulfillmentType === 'pickup'}}">
+  <view class="section">自提点 · {{districtName}}</view>
   <picker range="{{pickupPoints}}" range-key="name" bindchange="onPickupChange">
-    <view>自提点：{{pickupPoints[pickupIndex].name || '请选择'}}</view>
+    <view class="picker-line">{{pickupPoints[pickupIndex].name || '请选择自提点'}}</view>
   </picker>
-</view>
-
-<view class="card muted">
-  <checkbox-group bindchange="onSimulateChange">
-    <label><checkbox value="1"/> 测试环境：模拟已付（仅联调履约，仍非真收款）</label>
-  </checkbox-group>
+  <view class="muted">可选填联系人手机，便于自提通知</view>
+  <input placeholder="联系人（选填）" value="{{address.name}}" data-field="name" bindinput="onInput" />
+  <input placeholder="手机号（选填）" type="number" value="{{address.phone}}" data-field="phone" bindinput="onInput" />
 </view>
 
 <view class="card">
-  <view>合计 ¥ {{totalText}}</view>
-  <button class="btn-primary" bindtap="submitOrder">提交订单 · mockPay</button>
+  <view class="amount">商品合计 ¥ {{totalText}}</view>
+  <button class="btn-primary" bindtap="submitOrder">提交订单</button>
 </view>

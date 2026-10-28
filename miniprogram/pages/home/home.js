@@ -2,44 +2,40 @@ const { fetchCatalog } = require('../../utils/catalog');
 
 Page({
   data: {
-    districts: [],
-    complianceFooter: '',
+    districtName: '',
+    districtId: '',
+    seasons: [],
   },
 
-  onLoad() {
+  onShow() {
     const app = getApp();
-    this.setData({ complianceFooter: app.globalData.complianceFooter });
-    this.loadDistricts();
-  },
-
-  loadDistricts() {
-    fetchCatalog()
-      .then((data) => {
-        this.setData({ districts: data.districts || [] });
-      })
-      .catch(() => {
-        wx.showToast({ title: '加载区县失败', icon: 'none' });
-      });
-  },
-
-  onSelectDistrict(e) {
-    const { id, name, enabled } = e.currentTarget.dataset;
-    if (!enabled) {
-      wx.showToast({ title: '即将开放', icon: 'none' });
+    if (!app.globalData.districtId) {
+      wx.redirectTo({ url: '/pages/district-select/district-select' });
       return;
     }
-    const app = getApp();
-    app.globalData.districtId = id;
-    app.globalData.districtName = name;
-    wx.setStorageSync('selectedDistrict', { districtId: id, districtName: name });
-    wx.navigateTo({ url: '/pages/catalog/catalog' });
+    this.setData({
+      districtName: app.globalData.districtName,
+      districtId: app.globalData.districtId,
+    });
+    fetchCatalog().then((data) => {
+      this.setData({ seasons: data.seasons || [] });
+    });
   },
 
-  goOrders() {
-    wx.navigateTo({ url: '/pages/orders/orders' });
+  changeDistrict() {
+    wx.navigateTo({ url: '/pages/district-select/district-select' });
   },
 
-  goAdmin() {
-    wx.navigateTo({ url: '/pages/admin-stock/admin-stock' });
+  openSeason(e) {
+    const { season } = e.currentTarget.dataset;
+    wx.navigateTo({
+      url: `/pages/catalog/catalog?season=${season}`,
+    });
+  },
+
+  openSetBundle() {
+    wx.navigateTo({
+      url: '/pages/catalog/catalog?setsOnly=1',
+    });
   },
 });

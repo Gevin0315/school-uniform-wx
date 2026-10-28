@@ -1,11 +1,25 @@
-textarea {
-  width: 100%;
-  min-height: 160rpx;
-  border: 1rpx solid #eee;
-  padding: 16rpx;
-  box-sizing: border-box;
+.section-title {
+  font-weight: 600;
+  margin-bottom: 12rpx;
 }
 
-button {
-  margin: 24rpx;
+.order-line {
+  margin-top: 16rpx;
+}
+
+.state {
+  margin-top: 8rpx;
+  color: #1a5fb4;
+}
+
+.picker {
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid #eee;
+}
+
+.note {
+  margin-top: 16rpx;
+  width: 100%;
+  min-height: 120rpx;
+  box-sizing: border-box;
 }

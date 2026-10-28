@@ -2,15 +2,24 @@
 
 <block wx:for="{{items}}" wx:key="skuId">
   <view class="card item">
-    <view class="name">{{item.name}}</view>
+    <view class="row-top">
+      <view class="name">{{item.name}}</view>
+      <text class="delete" data-sku="{{item.skuId}}" bindtap="removeLine">删除</text>
+    </view>
     <view class="muted">尺码 {{item.size}} · {{item.typeLabel}}</view>
+    <view wx:if="{{item.componentLines.length}}" class="components">
+      <view class="comp-title">套装扣减组件 SKU：</view>
+      <block wx:for="{{item.componentLines}}" wx:for-item="comp" wx:key="skuId">
+        <view class="comp-line muted">· {{comp.name}}（余 {{comp.stock}}）</view>
+      </block>
+    </view>
     <view class="row">
       <view class="qty">
         <text data-sku="{{item.skuId}}" data-delta="-1" bindtap="changeQty">－</text>
         <text class="num">{{item.qty}}</text>
         <text data-sku="{{item.skuId}}" data-delta="1" bindtap="changeQty">＋</text>
       </view>
-      <text>¥ {{item.priceCent / 100}}</text>
+      <text>¥ {{item.lineTotalText}}</text>
     </view>
   </view>
 </block>

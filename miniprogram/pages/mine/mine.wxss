@@ -1,0 +1,19 @@
+.profile .title {
+  font-size: 36rpx;
+  font-weight: 600;
+}
+
+.link {
+  margin-top: 12rpx;
+  color: #1a5fb4;
+  font-size: 26rpx;
+}
+
+.menu-item {
+  padding: 28rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}

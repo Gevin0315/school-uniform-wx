@@ -1,29 +1,29 @@
-<view class="compliance-banner">校服自愿选购，非强制、非指定商家</view>
+<view class="compliance-banner">自愿选购 · 惠城 / 惠东样板区</view>
+
+<view class="district-capsule" bindtap="changeDistrict">
+  <text class="capsule-label">当前区县</text>
+  <text class="capsule-value">{{districtName || '未选择'}}</text>
+  <text class="capsule-change">更换 ›</text>
+</view>
 
 <view class="card">
-  <view class="title">请选择所在区县</view>
-  <view class="muted">样板开放：惠城区、惠东县</view>
+  <view class="title">按季节选购</view>
+  <view class="season-grid">
+    <block wx:for="{{seasons}}" wx:key="seasonId">
+      <view
+        class="season-tile"
+        data-season="{{item.seasonId}}"
+        bindtap="openSeason"
+      >
+        <text class="season-name">{{item.label}}</text>
+        <text class="season-hint">单买 / 套装</text>
+      </view>
+    </block>
+  </view>
 </view>
 
-<view class="district-list">
-  <block wx:for="{{districts}}" wx:key="districtId">
-    <view
-      class="district-item {{item.enabled ? '' : 'disabled'}}"
-      data-id="{{item.districtId}}"
-      data-name="{{item.name}}"
-      data-enabled="{{item.enabled}}"
-      bindtap="onSelectDistrict"
-    >
-      <text>{{item.name}}</text>
-      <text wx:if="{{!item.enabled}}" class="tag-disabled">即将开放</text>
-      <text wx:else class="arrow">›</text>
-    </view>
-  </block>
+<view class="card set-entry" bindtap="openSetBundle">
+  <view class="title">成套选购</view>
+  <view class="muted">一键浏览当前区县全部套装款式</view>
+  <text class="arrow">›</text>
 </view>
-
-<view class="links card">
-  <view bindtap="goOrders" class="link-row">我的订单</view>
-  <view bindtap="goAdmin" class="link-row muted">库存管理（Gate 1）</view>
-</view>
-
-<view class="footer-note">{{complianceFooter}}</view>

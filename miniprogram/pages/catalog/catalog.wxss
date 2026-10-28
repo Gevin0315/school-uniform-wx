@@ -1,10 +1,79 @@
-.header-row {
+.toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.product .name {
+.set-btn {
+  flex: 1;
+  margin-right: 16rpx;
+}
+
+.season-tabs {
+  display: flex;
+  padding: 0 24rpx 16rpx;
+  gap: 12rpx;
+  flex-wrap: wrap;
+}
+
+.tab {
+  padding: 12rpx 24rpx;
+  background: #fff;
+  border-radius: 999rpx;
+  font-size: 24rpx;
+  color: #666;
+}
+
+.tab.active {
+  background: #1a5fb4;
+  color: #fff;
+}
+
+.product-card {
+  display: flex;
+  gap: 20rpx;
+}
+
+.placeholder-cover {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 8rpx;
+  background: linear-gradient(135deg, #e8eef5, #d0dce8);
+  flex-shrink: 0;
+}
+
+.info {
+  flex: 1;
+}
+
+.name {
   font-weight: 600;
   margin-bottom: 8rpx;
+}
+
+.meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16rpx;
+}
+
+.price {
+  color: #c0392b;
+  font-weight: 600;
+}
+
+.stock-ok {
+  color: #2e7d32;
+  font-size: 22rpx;
+}
+
+.stock-low {
+  color: #e65100;
+  font-size: 22rpx;
+}
+
+.stock-out {
+  color: #999;
+  font-size: 22rpx;
 }
