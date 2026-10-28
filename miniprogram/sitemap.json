@@ -1,0 +1,9 @@
+{
+  "desc": "惠州校服选购 sitemap",
+  "rules": [
+    {
+      "action": "allow",
+      "page": "*"
+    }
+  ]
+}

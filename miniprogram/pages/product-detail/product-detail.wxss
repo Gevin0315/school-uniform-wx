@@ -1,0 +1,35 @@
+.name {
+  font-size: 34rpx;
+  font-weight: 600;
+}
+
+.section-title {
+  margin-bottom: 16rpx;
+  font-weight: 600;
+}
+
+.size-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.size-chip {
+  padding: 12rpx 24rpx;
+  background: #eee;
+  border-radius: 8rpx;
+}
+
+.size-chip.active {
+  background: #1a5fb4;
+  color: #fff;
+}
+
+.price {
+  margin-top: 24rpx;
+  color: #c0392b;
+}
+
+.add-btn {
+  margin: 24rpx;
+}

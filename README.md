@@ -27,4 +27,32 @@
 
 ## 状态
 
-当前仓库仅含产品与工程文档，**无业务页面代码**。开发前请先阅读 `docs/` 并对齐待决项（预算、上线日、商户主体等）。
+仓库已含 Gate 1 **代码脚手架**（`miniprogram/`、`cloudfunctions/`）。开发前请先阅读 `docs/` 并对齐待决项（预算、上线日、商户主体等）。
+
+## 代码目录
+
+| 路径 | 说明 |
+|------|------|
+| `miniprogram/` | 小程序页面与工具 |
+| `cloudfunctions/` | 云函数：`listCatalog`、`createOrder`、`mockPay`、`adminAdjustStock`；`wechatPay` / `shippingManage` 为空桩 |
+| `project.config.json` | 微信开发者工具工程配置 |
+
+## 本地打开（微信开发者工具）
+
+1. 克隆本仓库，用微信开发者工具 **导入项目**，目录选仓库根目录。
+2. **AppID**：正式开发需替换 `project.config.json` 中的 `appid`；无 AppID 时可先用测试号/体验模式（部分云能力受限，以官方文档为准）。
+3. **云开发环境**：在 `miniprogram/app.js` 将 `CLOUD_ENV_PLACEHOLDER` 改为你的云环境 ID；在工具栏开通云开发并 **上传并部署** `cloudfunctions/` 下各函数（含 `common/seed.js` 依赖路径）。
+4. 编译运行：首页选择 **惠城区 / 惠东县**，浏览目录 → 购物车 → 结算。**支付仅 mockPay**，界面与日志均标明 **非真收款**；测试联调可勾选「模拟已付」，状态为 `paid_mock_test_only`。
+5. Gate 1 管理页：首页 → 库存管理，默认 token 为 `gate1-dev-token`（上线前必须更换鉴权方式）。
+
+## 种子数据形状
+
+`cloudfunctions/common/seed.js`：`districtId × season × type(套/单) × size(110–180)` 库存占位；样板区县各 1 个虚拟自提点。
+
+## 运行前仍需人工配置
+
+- 小程序 **AppID** 与主体信息  
+- **云开发环境 ID** 与安全规则（`orders`、`skus` 等集合）  
+- 真实 **微信支付**、**发货管理**（当前为空桩）  
+
+演示路径 **不得** 作为生产真收款依据；校服 **自愿选购**。

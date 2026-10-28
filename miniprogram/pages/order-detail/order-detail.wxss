@@ -1,0 +1,12 @@
+.row {
+  margin-bottom: 12rpx;
+}
+
+.label {
+  color: #666;
+  margin-right: 16rpx;
+}
+
+button {
+  margin: 24rpx;
+}

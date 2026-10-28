@@ -1,0 +1,15 @@
+.section {
+  font-weight: 600;
+  margin-bottom: 16rpx;
+}
+
+label {
+  display: block;
+  margin: 12rpx 0;
+}
+
+input {
+  border-bottom: 1rpx solid #eee;
+  padding: 16rpx 0;
+  margin-bottom: 8rpx;
+}

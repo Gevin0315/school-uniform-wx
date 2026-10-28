@@ -1,0 +1,10 @@
+<view wx:if="{{order}}" class="card">
+  <view class="row"><text class="label">订单号</text><text>{{order.orderId}}</text></view>
+  <view class="row"><text class="label">状态</text><text>{{order.status}}</text></view>
+  <view class="row muted">{{order.payment.note}} · {{order.payment.disclaimer || '非真收款'}}</view>
+  <view class="row"><text class="label">配送</text><text>{{order.fulfillment.type}}</text></view>
+</view>
+
+<view wx:if="{{!order}}" class="footer-note">未找到订单（可能未写入云库或未配置环境）</view>
+
+<button wx:if="{{order}}" class="btn-secondary" bindtap="applyAftersales">申请售后</button>
