@@ -1,104 +1,114 @@
-<view class="compliance-banner">自愿选购 · {{districtName || '惠城/惠东样板区可售'}}</view>
-
-<view class="district-capsule" bindtap="changeDistrict">
-  <text class="capsule-label">快捷选区</text>
-  <text class="capsule-value">{{districtName || '可选，下单前需确定'}}</text>
-  <text class="capsule-change">选区 ›</text>
-</view>
-
-<view class="filter-section">
-  <view class="filter-row">
-    <text class="filter-label">区县</text>
-    <scroll-view class="filter-scroll" scroll-x enable-flex>
-      <view
-        class="tab {{filterDistrict === '' ? 'active' : ''}}"
-        data-district=""
-        bindtap="onDistrictTap"
-      >全部区县</view>
-      <block wx:for="{{districts}}" wx:key="districtId">
-        <view
-          class="tab {{filterDistrict === item.districtId ? 'active' : ''}}"
-          data-district="{{item.districtId}}"
-          bindtap="onDistrictTap"
-        >{{item.name}}</view>
-      </block>
-    </scroll-view>
+<view class="page-home">
+  <view class="hero-header">
+    <view class="status-bar" style="height: {{statusBarHeight}}px" />
+    <view class="hero-inner">
+      <view class="hero-text">
+        <text class="hero-title">校服优选</text>
+        <text class="hero-sub">为孩子选好每一套校园着装</text>
+      </view>
+      <view class="search-btn" bindtap="onSearchTap" aria-role="button">
+        <text class="search-icon">⌕</text>
+      </view>
+    </view>
   </view>
 
-  <view class="filter-row">
-    <text class="filter-label">季节</text>
-    <scroll-view class="filter-scroll" scroll-x enable-flex>
+  <view class="district-bar">
+    <view class="district-left" bindtap="onDistrictBarTap">
+      <text>📍 {{districtFilterLabel}} ⌄</text>
+    </view>
+    <text class="district-link" catchtap="goRules">自愿选购 · 了解说明 ›</text>
+  </view>
+
+  <view class="section season-section">
+    <view class="section-head">
+      <text class="section-title">按季节挑选</text>
+      <text class="filter-entry" bindtap="toggleFilterPanel">筛选 ☷</text>
+    </view>
+    <view class="season-chips">
       <view
-        class="tab {{filterSeason === '' ? 'active' : ''}}"
+        class="chip {{filterSeason === '' ? 'chip-active' : ''}}"
         data-season=""
         bindtap="onSeasonTap"
       >全部</view>
       <block wx:for="{{seasons}}" wx:key="seasonId">
         <view
-          class="tab {{filterSeason === item.seasonId ? 'active' : ''}}"
+          class="chip {{filterSeason === item.seasonId ? 'chip-active' : ''}}"
           data-season="{{item.seasonId}}"
           bindtap="onSeasonTap"
         >{{item.label}}</view>
       </block>
-    </scroll-view>
-  </view>
-
-  <view class="filter-row">
-    <text class="filter-label">类型</text>
-    <view class="filter-chips">
-      <view
-        class="tab {{filterType === '' ? 'active' : ''}}"
-        data-type=""
-        bindtap="onTypeTap"
-      >全部</view>
-      <view
-        class="tab {{filterType === 'set' ? 'active' : ''}}"
-        data-type="set"
-        bindtap="onTypeTap"
-      >套装</view>
-      <view
-        class="tab {{filterType === 'single' ? 'active' : ''}}"
-        data-type="single"
-        bindtap="onTypeTap"
-      >单件</view>
     </view>
   </view>
 
-  <view class="filter-row">
-    <text class="filter-label">库存</text>
-    <view class="filter-chips">
-      <view
-        class="tab {{filterStock === '' ? 'active' : ''}}"
-        data-stock=""
-        bindtap="onStockTap"
-      >全部</view>
-      <view
-        class="tab {{filterStock === 'in_stock' ? 'active' : ''}}"
-        data-stock="in_stock"
-        bindtap="onStockTap"
-      >仅有货</view>
+  <view class="combo-banner" bindtap="onComboTap">
+    <view class="combo-text">
+      <text class="combo-kicker">省心搭配</text>
+      <text class="combo-title">一键配齐新学期</text>
+      <text class="combo-desc">按校区与季节，为你组合常用款</text>
+    </view>
+    <view class="combo-cta-wrap">
+      <view class="combo-illus" />
+      <text class="combo-cta">查看搭配 ›</text>
     </view>
   </view>
-</view>
 
-<view class="toolbar card">
-  <button class="btn-primary set-btn" size="mini" bindtap="oneClickSet">一键成套</button>
-  <button class="btn-secondary mini" size="mini" bindtap="goCart">购物车</button>
-</view>
+  <view class="section products-section">
+    <view class="section-head">
+      <text class="section-title">{{hotSectionTitle}}</text>
+    </view>
+    <view class="product-grid">
+      <block wx:for="{{displayProducts}}" wx:key="productId">
+        <view class="product-tile" data-id="{{item.productId}}" bindtap="openProduct">
+          <view class="tile-cover placeholder-cover">
+            <text wx:if="{{item.districtLabel}}" class="tile-district">{{item.districtLabel}}</text>
+          </view>
+          <text class="tile-name">{{item.displayTitle}}</text>
+          <text class="tile-sub">{{item.subtitle}}</text>
+          <view class="tile-meta">
+            <text class="price">¥ {{item.priceText}}</text>
+            <text class="stock stock-{{item.stockLevel}}">{{item.stockText}}</text>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
 
-<block wx:for="{{displayProducts}}" wx:key="productId">
-  <view class="card product-card" data-id="{{item.productId}}" bindtap="openProduct">
-    <view class="cover placeholder-cover" />
-    <view class="info">
-      <view class="name">{{item.name}}</view>
-      <view class="muted">{{item.districtLabel}} · {{item.typeLabel}} · {{item.seasonLabel}}</view>
-      <view class="meta-row">
-        <text class="price">¥ {{item.priceText}}</text>
-        <text class="stock stock-{{item.stockLevel}}">{{item.stockText}}</text>
+  <view wx:if="{{displayProducts.length === 0 && products.length > 0}}" class="footer-note">暂无符合筛选的商品，请调整筛选条件</view>
+  <view wx:if="{{products.length === 0}}" class="footer-note">暂无商品</view>
+
+  <view wx:if="{{filterPanelVisible}}" class="filter-mask" bindtap="toggleFilterPanel" />
+  <view class="filter-sheet {{filterPanelVisible ? 'filter-sheet-show' : ''}}">
+    <view class="filter-sheet-head">
+      <text class="filter-sheet-title">筛选</text>
+      <text class="filter-sheet-close" bindtap="toggleFilterPanel">完成</text>
+    </view>
+    <view class="filter-sheet-block">
+      <text class="filter-sheet-label">类型</text>
+      <view class="filter-sheet-chips">
+        <view class="chip {{filterType === '' ? 'chip-active' : ''}}" data-type="" bindtap="onTypeTap">全部</view>
+        <view class="chip {{filterType === 'set' ? 'chip-active' : ''}}" data-type="set" bindtap="onTypeTap">套装</view>
+        <view class="chip {{filterType === 'single' ? 'chip-active' : ''}}" data-type="single" bindtap="onTypeTap">单件</view>
+      </view>
+    </view>
+    <view class="filter-sheet-block">
+      <text class="filter-sheet-label">库存</text>
+      <view class="filter-sheet-chips">
+        <view class="chip {{filterStock === '' ? 'chip-active' : ''}}" data-stock="" bindtap="onStockTap">全部</view>
+        <view class="chip {{filterStock === 'in_stock' ? 'chip-active' : ''}}" data-stock="in_stock" bindtap="onStockTap">仅有货</view>
+      </view>
+    </view>
+    <view class="filter-sheet-block">
+      <text class="filter-sheet-label">区县</text>
+      <view class="filter-sheet-chips">
+        <view class="chip {{filterDistrict === '' ? 'chip-active' : ''}}" data-district="" bindtap="onDistrictTap">全部区县</view>
+        <block wx:for="{{districts}}" wx:key="districtId">
+          <view
+            class="chip {{filterDistrict === item.districtId ? 'chip-active' : ''}}"
+            data-district="{{item.districtId}}"
+            bindtap="onDistrictTap"
+          >{{item.name}}</view>
+        </block>
       </view>
     </view>
   </view>
-</block>
-
-<view wx:if="{{displayProducts.length === 0 && products.length > 0}}" class="footer-note">暂无符合筛选的商品，请调整筛选条件</view>
-<view wx:if="{{products.length === 0}}" class="footer-note">暂无商品</view>
+</view>

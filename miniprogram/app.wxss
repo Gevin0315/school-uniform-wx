@@ -1,52 +1,54 @@
 page {
-  background: #f5f6f8;
-  color: #1a1a1a;
+  background: #e9edf0;
+  color: #203342;
   font-size: 28rpx;
   line-height: 1.5;
 }
 
 .compliance-banner {
-  background: #fff8e6;
-  color: #8a6d3b;
+  background: #f5f1e9;
+  color: #7c6746;
   padding: 16rpx 24rpx;
   font-size: 24rpx;
-  border-bottom: 1rpx solid #f0e6c8;
+  border-bottom: 1rpx solid #ebe4d8;
 }
 
 .btn-primary {
-  background: #1a5fb4;
+  background: #183f5b;
   color: #fff;
-  border-radius: 8rpx;
+  border-radius: 28rpx;
+  font-weight: 600;
 }
 
 .btn-primary[disabled] {
-  background: #a0c4e8;
+  background: #8fa8b8;
   color: #fff;
 }
 
 .btn-secondary {
   background: #fff;
-  color: #1a5fb4;
-  border: 1rpx solid #1a5fb4;
-  border-radius: 8rpx;
+  color: #183f5b;
+  border: 2rpx solid #183f5b;
+  border-radius: 28rpx;
+  font-weight: 600;
 }
 
 .card {
   background: #fff;
-  border-radius: 12rpx;
+  border-radius: 32rpx;
   margin: 24rpx;
-  padding: 24rpx;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+  padding: 28rpx;
+  box-shadow: 0 16rpx 48rpx rgba(22, 51, 75, 0.06);
 }
 
 .muted {
-  color: #888;
+  color: #829097;
   font-size: 24rpx;
 }
 
 .tag-disabled {
-  color: #aaa;
-  background: #eee;
+  color: #70818b;
+  background: #f0f3f4;
   padding: 4rpx 12rpx;
   border-radius: 6rpx;
   font-size: 22rpx;
@@ -56,5 +58,5 @@ page {
   padding: 32rpx 24rpx 48rpx;
   text-align: center;
   font-size: 22rpx;
-  color: #999;
+  color: #70818b;
 }

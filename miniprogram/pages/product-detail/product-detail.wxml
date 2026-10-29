@@ -1,45 +1,55 @@
-<view class="compliance-banner" wx:if="{{product}}">{{product.complianceNote}}</view>
+<view class="page-detail" wx:if="{{product}}">
+  <swiper class="hero-swiper" indicator-dots circular autoplay="{{false}}">
+    <swiper-item wx:for="{{gallery}}" wx:key="*this">
+      <view class="hero-slide placeholder-cover" />
+    </swiper-item>
+  </swiper>
+  <view class="hero-indicator muted">{{gallery.length}} 图预览</view>
 
-<view class="hero card" wx:if="{{product}}">
-  <view class="hero-cover placeholder-cover" />
-  <view class="name">{{product.name}}</view>
-  <view class="muted">{{districtLabel}} · {{product.typeLabel}}</view>
-  <view wx:if="{{selectedSku}}" class="price">¥ {{priceText}}</view>
-</view>
+  <view class="detail-body">
+    <text class="name">{{product.name}}</text>
+    <text class="muted meta-line">{{seasonLabel}} · {{product.typeLabel}}　|　适用{{districtLabel}}</text>
+    <text class="price-main">¥ {{listPriceText}}</text>
 
-<view class="card">
-  <view class="section-title">尺码（110–180）</view>
-  <view class="size-row">
-    <block wx:for="{{sizeChart}}" wx:key="*this">
-      <view
-        class="size-chip {{selectedSize === item ? 'active' : ''}}"
-        data-size="{{item}}"
-        bindtap="pickSize"
-      >{{item}}</view>
-    </block>
-  </view>
-  <view wx:if="{{selectedSize}}" class="stock-line">库存：{{stock}} 件</view>
-  <view class="qty-row">
-    <text>数量</text>
-    <view class="qty">
-      <text data-delta="-1" bindtap="changeQty">－</text>
-      <text class="num">{{qty}}</text>
-      <text data-delta="1" bindtap="changeQty">＋</text>
+    <view class="card size-card">
+      <view class="size-card-head">
+        <text class="section-title">选择尺码</text>
+        <text class="size-guide" bindtap="onSizeGuideTap">尺码指南 ›</text>
+      </view>
+      <view class="size-row">
+        <block wx:for="{{sizeChart}}" wx:key="*this">
+          <view
+            class="size-chip {{selectedSize === item ? 'active' : ''}}"
+            data-size="{{item}}"
+            bindtap="pickSize"
+          >{{item}}</view>
+        </block>
+      </view>
+      <text wx:if="{{selectedSize}}" class="stock-hint muted">库存 {{stock}} 件 · 支持换码</text>
+      <text wx:else class="stock-hint muted">请选择尺码</text>
+      <view class="qty-row">
+        <text class="qty-label">数量</text>
+        <view class="qty">
+          <text data-delta="-1" bindtap="changeQty">－</text>
+          <text class="num">{{qty}}</text>
+          <text data-delta="1" bindtap="changeQty">＋</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="card aftersales-card">
+      <text class="section-title">安心售后</text>
+      <text class="aftersales-copy muted">{{returnPolicyShort}}</text>
     </view>
   </view>
-</view>
 
-<view class="card policy">
-  <view class="section-title">退换规则</view>
-  <text class="muted">{{returnPolicy}}</text>
-</view>
-
-<view class="action-bar" wx:if="{{product}}">
-  <button class="btn-secondary flex" bindtap="addCart">加入购物车</button>
-  <button
-    wx:if="{{product.type === 'set'}}"
-    class="btn-primary flex"
-    bindtap="addSetBundle"
-  >成套加购</button>
-  <button wx:else class="btn-primary flex" bindtap="addCart">立即加购</button>
+  <view class="action-bar safe-bottom">
+    <button class="btn-secondary action-outline" bindtap="addCart">加入购物车</button>
+    <button
+      wx:if="{{product.type === 'set'}}"
+      class="btn-primary action-solid"
+      bindtap="addSetBundle"
+    >成套加购</button>
+    <button wx:else class="btn-primary action-solid" bindtap="addCart">立即加购</button>
+  </view>
 </view>

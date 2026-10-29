@@ -1,14 +1,68 @@
-<view class="compliance-banner">自愿选购 · 非强制指定商家</view>
+<view class="page-mine">
+  <view class="hero-header">
+    <view class="status-bar" style="height: {{statusBarHeight}}px" />
+    <text class="hero-title">我的</text>
+  </view>
 
-<view class="card profile">
-  <view class="title">我的</view>
-  <view class="muted">当前区县：{{districtName}}</view>
-  <view class="link" bindtap="goDistrict">更换区县 ›</view>
-</view>
+  <view class="user-card card">
+    <view class="user-row">
+      <view class="avatar">
+        <text class="avatar-text">我</text>
+      </view>
+      <view class="user-info">
+        <text class="user-name">家长用户</text>
+        <text class="user-district muted">当前选购校区：{{districtDisplay}}</text>
+      </view>
+    </view>
+    <text class="change-district" bindtap="goDistrict">更换校区　›</text>
+  </view>
 
-<view class="card menu">
-  <view class="menu-item" bindtap="goOrders">我的订单</view>
-  <view class="menu-item" bindtap="goCart">购物车</view>
-  <view class="menu-item" bindtap="goAddress">收货地址</view>
-  <view class="menu-item" bindtap="goRules">规则与隐私</view>
+  <view class="orders-card card">
+    <view class="orders-head">
+      <text class="orders-title">我的订单</text>
+      <text class="orders-all" bindtap="goOrdersAll">全部 ›</text>
+    </view>
+    <view class="orders-shortcuts">
+      <view class="shortcut" bindtap="goOrdersPendingPay">
+        <text class="shortcut-icon">◷</text>
+        <text class="shortcut-label">待付款</text>
+      </view>
+      <view class="shortcut" bindtap="goOrdersPendingShip">
+        <text class="shortcut-icon">▣</text>
+        <text class="shortcut-label">待发货</text>
+      </view>
+      <view class="shortcut" bindtap="goOrdersPendingReceive">
+        <text class="shortcut-icon">♧</text>
+        <text class="shortcut-label">待收货</text>
+      </view>
+      <view class="shortcut" bindtap="goAftersales">
+        <text class="shortcut-icon">↻</text>
+        <text class="shortcut-label">退换售后</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="menu-card card">
+    <view class="menu-item" bindtap="goCart">
+      <text class="menu-label">▣　购物车</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="goAddress">
+      <text class="menu-label">⌖　收货地址</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="goSizeGuide">
+      <text class="menu-label">♡　尺码与换码说明</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="goRules">
+      <text class="menu-label">⚙　规则与隐私</text>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+
+  <view class="help-bar" bindtap="contactSupport">
+    <text class="help-kicker">需要帮助？</text>
+    <text class="help-cta">联系校服客服　›</text>
+  </view>
 </view>

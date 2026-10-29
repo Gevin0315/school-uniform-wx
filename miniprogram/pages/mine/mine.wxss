@@ -1,19 +1,160 @@
-.profile .title {
+.page-mine {
+  min-height: 100vh;
+  background: #f6f7f6;
+  padding-bottom: 48rpx;
+}
+
+.hero-header {
+  background: #183f5b;
+  padding-bottom: 36rpx;
+}
+
+.hero-title {
+  display: block;
+  text-align: center;
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #fff;
+  padding-top: 8rpx;
+}
+
+.user-card {
+  margin-top: -20rpx;
+}
+
+.user-row {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+}
+
+.avatar {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  background: #e7eeeb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.avatar-text {
   font-size: 36rpx;
+  color: #547365;
+}
+
+.user-name {
+  display: block;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #203342;
+}
+
+.user-district {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 24rpx;
+}
+
+.change-district {
+  display: block;
+  margin-top: 28rpx;
+  font-size: 26rpx;
+  color: #183f5b;
   font-weight: 600;
 }
 
-.link {
-  margin-top: 12rpx;
-  color: #1a5fb4;
-  font-size: 26rpx;
+.orders-card {
+  margin-top: 24rpx;
+}
+
+.orders-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28rpx;
+}
+
+.orders-title {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #203342;
+}
+
+.orders-all {
+  font-size: 24rpx;
+  color: #829097;
+}
+
+.orders-shortcuts {
+  display: flex;
+  justify-content: space-between;
+}
+
+.shortcut {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.shortcut-icon {
+  font-size: 36rpx;
+  color: #63747d;
+}
+
+.shortcut-label {
+  font-size: 22rpx;
+  color: #63747d;
+}
+
+.menu-card {
+  margin-top: 24rpx;
+  padding-top: 8rpx;
+  padding-bottom: 8rpx;
 }
 
 .menu-item {
-  padding: 28rpx 0;
-  border-bottom: 1rpx solid #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 8rpx;
+  border-bottom: 1rpx solid #edf0f1;
 }
 
 .menu-item:last-child {
   border-bottom: none;
+}
+
+.menu-label {
+  font-size: 28rpx;
+  color: #344956;
+}
+
+.menu-arrow {
+  font-size: 32rpx;
+  color: #aab3b8;
+}
+
+.help-bar {
+  margin: 24rpx;
+  padding: 24rpx 28rpx;
+  background: #eaf0ed;
+  border-radius: 32rpx;
+}
+
+.help-kicker {
+  display: block;
+  font-size: 22rpx;
+  color: #6c8176;
+}
+
+.help-cta {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 26rpx;
+  font-weight: 700;
+  color: #315c4d;
 }
