@@ -3,6 +3,7 @@ const {
   addToCartWithDistrictPolicy,
   districtNameFor,
   formatCent,
+  productListPriceCent,
 } = require('../../utils/catalog');
 const { effectiveLineStock } = require('../../utils/stock');
 const { RETURN_POLICY_COPY } = require('../../utils/aftersales');
@@ -16,8 +17,13 @@ Page({
     selectedSku: null,
     sizeChart: [],
     returnPolicy: RETURN_POLICY_COPY,
+    returnPolicyShort:
+      '支持 7 天无理由退货，尺码问题可申请换码。具体以收到实物及平台规则为准。',
     qty: 1,
     districtLabel: '',
+    seasonLabel: '',
+    listPriceText: '',
+    gallery: [1],
   },
 
   onLoad(query) {
@@ -26,6 +32,12 @@ Page({
       const product = (data.products || []).find((p) => p.productId === productId);
       const skus = (data.skus || []).filter((s) => s.productId === productId);
       const sizes = data.sizes || [110, 120, 130, 140, 150, 160, 170, 180];
+      const seasonLabels = Object.fromEntries(
+        (data.seasons || []).map((s) => [s.seasonId, s.label])
+      );
+      const listPriceText = product
+        ? formatCent(productListPriceCent(product, data))
+        : '';
       this.setData({
         product,
         catalog: data,
@@ -34,8 +46,15 @@ Page({
         districtLabel: product
           ? districtNameFor(data, product.districtId)
           : '',
+        seasonLabel: product ? seasonLabels[product.seasonId] || '' : '',
+        listPriceText,
+        gallery: [1, 2, 3, 4],
       });
     });
+  },
+
+  onSizeGuideTap() {
+    wx.showToast({ title: '尺码指南即将上线', icon: 'none' });
   },
 
   pickSize(e) {

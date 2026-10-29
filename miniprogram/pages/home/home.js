@@ -1,12 +1,30 @@
-const {
-  fetchCatalog,
-  enrichProductCards,
-  addToCartWithDistrictPolicy,
-} = require('../../utils/catalog');
-const { effectiveLineStock } = require('../../utils/stock');
+const { fetchCatalog, enrichProductCards } = require('../../utils/catalog');
+
+function shortProductTitle(name) {
+  return (name || '')
+    .replace(/（样板）/g, '')
+    .replace(/^惠城区|惠东县/g, '')
+    .trim();
+}
+
+function productSubtitle(item) {
+  if (item.type === 'set') {
+    if (item.seasonId === 'summer') {
+      return '短袖上衣 + 长裤';
+    }
+    if (item.seasonId === 'spring_autumn') {
+      return '外套 · 多尺码';
+    }
+    if (item.seasonId === 'winter') {
+      return '冬装套装 · 多尺码';
+    }
+  }
+  return `${item.typeLabel} · ${item.seasonLabel}`;
+}
 
 Page({
   data: {
+    statusBarHeight: 44,
     districtName: '',
     districts: [],
     products: [],
@@ -17,6 +35,17 @@ Page({
     filterType: '',
     filterStock: '',
     catalog: null,
+    districtFilterLabel: '全部区县',
+    hotSectionTitle: '热门校服',
+    filterPanelVisible: false,
+    districtLabelMap: {},
+  },
+
+  onLoad() {
+    const sys = wx.getSystemInfoSync();
+    this.setData({
+      statusBarHeight: sys.statusBarHeight || 44,
+    });
   },
 
   onShow() {
@@ -43,16 +72,25 @@ Page({
       const seasonLabels = Object.fromEntries(
         (data.seasons || []).map((s) => [s.seasonId, s.label])
       );
-      const enriched = enrichProductCards(products, data).map((p) => ({
-        ...p,
-        seasonLabel: seasonLabels[p.seasonId] || '',
-        districtLabel: districtLabels[p.districtId] || '',
-      }));
+      const enriched = enrichProductCards(products, data).map((p) => {
+        const seasonLabel = seasonLabels[p.seasonId] || '';
+        const card = {
+          ...p,
+          seasonLabel,
+          districtLabel: districtLabels[p.districtId] || '',
+          displayTitle: shortProductTitle(p.name),
+        };
+        return {
+          ...card,
+          subtitle: productSubtitle(card),
+        };
+      });
       this.setData({
         products: enriched,
         seasons: data.seasons || [],
         districts: (data.districts || []).filter((d) => d.enabled),
         catalog: data,
+        districtLabelMap: districtLabels,
       });
       this.applyFilters();
     });
@@ -65,6 +103,7 @@ Page({
       filterSeason,
       filterType,
       filterStock,
+      districtLabelMap,
     } = this.data;
     let list = products;
     if (filterDistrict) {
@@ -81,7 +120,17 @@ Page({
     if (filterStock === 'in_stock') {
       list = list.filter((p) => p.stockLevel !== 'out');
     }
-    this.setData({ displayProducts: list });
+    const districtFilterLabel = filterDistrict
+      ? districtLabelMap[filterDistrict] || '全部区县'
+      : '全部区县';
+    const hotSectionTitle = filterDistrict
+      ? `${districtFilterLabel} · 热门校服`
+      : '热门校服';
+    this.setData({
+      displayProducts: list,
+      districtFilterLabel,
+      hotSectionTitle,
+    });
   },
 
   onDistrictTap(e) {
@@ -108,8 +157,38 @@ Page({
     this.setData({ filterStock: next }, () => this.applyFilters());
   },
 
-  changeDistrict() {
-    wx.navigateTo({ url: '/pages/district-select/district-select' });
+  onDistrictBarTap() {
+    const { districts } = this.data;
+    const itemList = ['全部区县', ...districts.map((d) => d.name)];
+    wx.showActionSheet({
+      itemList,
+      success: (res) => {
+        const tap = res.tapIndex;
+        const next =
+          tap === 0 ? '' : (districts[tap - 1] && districts[tap - 1].districtId) || '';
+        this.setData({ filterDistrict: next }, () => this.applyFilters());
+      },
+    });
+  },
+
+  onSearchTap() {
+    wx.showToast({ title: '搜索即将上线', icon: 'none' });
+  },
+
+  goRules() {
+    wx.navigateTo({ url: '/pages/rules/rules' });
+  },
+
+  toggleFilterPanel() {
+    this.setData({ filterPanelVisible: !this.data.filterPanelVisible });
+  },
+
+  onComboTap() {
+    const { filterSeason } = this.data;
+    const seasonQuery = filterSeason ? `&season=${filterSeason}` : '';
+    wx.navigateTo({
+      url: `/pages/catalog/catalog?setsOnly=1${seasonQuery}`,
+    });
   },
 
   openProduct(e) {
@@ -117,56 +196,4 @@ Page({
     wx.navigateTo({ url: `/pages/product-detail/product-detail?id=${id}` });
   },
 
-  oneClickSet() {
-    const data = this.data.catalog;
-    if (!data) {
-      return;
-    }
-    const setProduct = this.data.displayProducts.find((p) => p.type === 'set');
-    if (!setProduct) {
-      wx.showToast({ title: '当前筛选下暂无套装', icon: 'none' });
-      return;
-    }
-    const size = 140;
-    const sku = (data.skus || []).find(
-      (s) => s.productId === setProduct.productId && s.size === size
-    );
-    const stock = effectiveLineStock(setProduct, size, data);
-    if (!sku || stock <= 0) {
-      wx.showToast({ title: '默认尺码 140 暂无库存', icon: 'none' });
-      return;
-    }
-    addToCartWithDistrictPolicy(
-      {
-        skuId: sku.skuId,
-        productId: setProduct.productId,
-        productType: setProduct.type,
-        name: setProduct.name,
-        size,
-        priceCent: sku.priceCent,
-        districtId: setProduct.districtId,
-        typeLabel: setProduct.typeLabel,
-      },
-      data
-    ).then(({ added }) => {
-      if (!added) {
-        return;
-      }
-      wx.showModal({
-        title: '一键成套',
-        content: `已将「${setProduct.name}」尺码 ${size} 加入购物车，可在购物车修改尺码与数量。`,
-        confirmText: '去购物车',
-        cancelText: '继续逛',
-        success: (res) => {
-          if (res.confirm) {
-            wx.navigateTo({ url: '/pages/cart/cart' });
-          }
-        },
-      });
-    });
-  },
-
-  goCart() {
-    wx.navigateTo({ url: '/pages/cart/cart' });
-  },
 });

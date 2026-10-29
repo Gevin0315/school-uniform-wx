@@ -16,13 +16,13 @@
   ],
   "window": {
     "navigationBarTitleText": "惠州校服选购",
-    "navigationBarBackgroundColor": "#1a5fb4",
+    "navigationBarBackgroundColor": "#183f5b",
     "navigationBarTextStyle": "white",
-    "backgroundColor": "#f5f6f8"
+    "backgroundColor": "#e9edf0"
   },
   "tabBar": {
-    "color": "#666666",
-    "selectedColor": "#1a5fb4",
+    "color": "#78858c",
+    "selectedColor": "#183f5b",
     "backgroundColor": "#ffffff",
     "borderStyle": "black",
     "list": [

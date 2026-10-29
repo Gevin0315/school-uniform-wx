@@ -1,51 +1,102 @@
-.hero-cover,
+.page-detail {
+  min-height: 100vh;
+  background: #f6f7f6;
+  padding-bottom: 160rpx;
+}
+
+.hero-swiper {
+  height: 536rpx;
+  margin: 0 24rpx;
+  border-radius: 36rpx;
+  overflow: hidden;
+}
+
+.hero-slide,
 .placeholder-cover {
   width: 100%;
-  height: 320rpx;
-  border-radius: 12rpx;
-  background: linear-gradient(135deg, #e8eef5, #d0dce8);
-  margin-bottom: 16rpx;
+  height: 100%;
+  background: linear-gradient(135deg, #e5edf1, #cbd9df);
+}
+
+.hero-indicator {
+  text-align: right;
+  padding: 8rpx 32rpx 0;
+  font-size: 22rpx;
+}
+
+.detail-body {
+  padding: 16rpx 24rpx 0;
 }
 
 .name {
-  font-size: 32rpx;
-  font-weight: 600;
+  display: block;
+  font-size: 38rpx;
+  font-weight: 700;
+  color: #203342;
+  line-height: 1.35;
 }
 
-.price {
+.meta-line {
+  display: block;
   margin-top: 12rpx;
-  color: #c0392b;
-  font-size: 36rpx;
-  font-weight: 600;
+  font-size: 24rpx;
+}
+
+.price-main {
+  display: block;
+  margin-top: 20rpx;
+  font-size: 48rpx;
+  font-weight: 700;
+  color: #c2674f;
+}
+
+.size-card {
+  margin: 24rpx 0 0;
+}
+
+.size-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
 }
 
 .section-title {
-  font-weight: 600;
-  margin-bottom: 16rpx;
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #253946;
+}
+
+.size-guide {
+  font-size: 22rpx;
+  color: #829097;
 }
 
 .size-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 12rpx;
+  gap: 16rpx;
 }
 
 .size-chip {
-  padding: 12rpx 20rpx;
-  border: 1rpx solid #ddd;
-  border-radius: 8rpx;
+  min-width: 96rpx;
+  padding: 14rpx 0;
+  text-align: center;
+  border-radius: 18rpx;
+  background: #f4f6f6;
+  color: #53636b;
   font-size: 24rpx;
 }
 
 .size-chip.active {
-  border-color: #1a5fb4;
-  background: #e8f0fa;
-  color: #1a5fb4;
+  background: #183f5b;
+  color: #fff;
 }
 
-.stock-line {
+.stock-hint {
+  display: block;
   margin-top: 16rpx;
-  font-size: 24rpx;
+  font-size: 22rpx;
 }
 
 .qty-row {
@@ -53,6 +104,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #edf0f1;
+}
+
+.qty-label {
+  color: #203342;
+  font-size: 26rpx;
 }
 
 .qty text {
@@ -60,29 +118,54 @@
   width: 56rpx;
   text-align: center;
   padding: 8rpx;
-  background: #f0f0f0;
-  border-radius: 6rpx;
+  background: #f0f3f4;
+  border-radius: 12rpx;
+  color: #183f5b;
 }
 
 .qty .num {
   background: transparent;
   min-width: 48rpx;
+  color: #203342;
 }
 
-.policy {
-  font-size: 24rpx;
+.aftersales-card {
+  margin-top: 24rpx;
+}
+
+.aftersales-copy {
+  display: block;
+  margin-top: 12rpx;
+  font-size: 22rpx;
   line-height: 1.6;
 }
 
 .action-bar {
-  display: flex;
-  gap: 16rpx;
-  padding: 24rpx;
-  position: sticky;
+  position: fixed;
+  left: 0;
+  right: 0;
   bottom: 0;
-  background: #f5f6f8;
+  display: flex;
+  gap: 20rpx;
+  padding: 20rpx 24rpx calc(20rpx + env(safe-area-inset-bottom));
+  background: #f6f7f6;
+  box-shadow: 0 -8rpx 24rpx rgba(22, 51, 75, 0.06);
 }
 
-.flex {
+.action-outline {
+  flex: 0 0 240rpx;
+  margin: 0;
+  font-size: 28rpx;
+  line-height: 88rpx;
+  height: 88rpx;
+  padding: 0;
+}
+
+.action-solid {
   flex: 1;
+  margin: 0;
+  font-size: 28rpx;
+  line-height: 88rpx;
+  height: 88rpx;
+  padding: 0;
 }

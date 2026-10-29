@@ -22,6 +22,7 @@ Page({
     }
     if (query.setsOnly === '1') {
       this.setData({ setsOnly: true });
+      wx.setNavigationBarTitle({ title: '省心搭配 · 套装' });
     }
   },
 
