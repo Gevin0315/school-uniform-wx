@@ -1,12 +1,30 @@
-<view class="compliance-banner">自愿选购 · {{districtName || '请先选择区县'}}</view>
+<view class="compliance-banner">自愿选购 · {{districtName || '惠城/惠东样板区可售'}}</view>
 
 <view class="district-capsule" bindtap="changeDistrict">
-  <text class="capsule-label">当前区县</text>
-  <text class="capsule-value">{{districtName || '未选择'}}</text>
-  <text class="capsule-change">更换 ›</text>
+  <text class="capsule-label">快捷选区</text>
+  <text class="capsule-value">{{districtName || '可选，下单前需确定'}}</text>
+  <text class="capsule-change">选区 ›</text>
 </view>
 
 <view class="filter-section">
+  <view class="filter-row">
+    <text class="filter-label">区县</text>
+    <scroll-view class="filter-scroll" scroll-x enable-flex>
+      <view
+        class="tab {{filterDistrict === '' ? 'active' : ''}}"
+        data-district=""
+        bindtap="onDistrictTap"
+      >全部区县</view>
+      <block wx:for="{{districts}}" wx:key="districtId">
+        <view
+          class="tab {{filterDistrict === item.districtId ? 'active' : ''}}"
+          data-district="{{item.districtId}}"
+          bindtap="onDistrictTap"
+        >{{item.name}}</view>
+      </block>
+    </scroll-view>
+  </view>
+
   <view class="filter-row">
     <text class="filter-label">季节</text>
     <scroll-view class="filter-scroll" scroll-x enable-flex>
@@ -73,7 +91,7 @@
     <view class="cover placeholder-cover" />
     <view class="info">
       <view class="name">{{item.name}}</view>
-      <view class="muted">{{item.typeLabel}} · {{item.seasonLabel}}</view>
+      <view class="muted">{{item.districtLabel}} · {{item.typeLabel}} · {{item.seasonLabel}}</view>
       <view class="meta-row">
         <text class="price">¥ {{item.priceText}}</text>
         <text class="stock stock-{{item.stockLevel}}">{{item.stockText}}</text>
@@ -83,4 +101,4 @@
 </block>
 
 <view wx:if="{{displayProducts.length === 0 && products.length > 0}}" class="footer-note">暂无符合筛选的商品，请调整筛选条件</view>
-<view wx:if="{{products.length === 0}}" class="footer-note">暂无商品，请更换区县</view>
+<view wx:if="{{products.length === 0}}" class="footer-note">暂无商品</view>

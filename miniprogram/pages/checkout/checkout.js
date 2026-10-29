@@ -6,6 +6,7 @@ const {
   clearCart,
   loadAddress,
   saveAddress,
+  ensureDistrictFromCart,
 } = require('../../utils/catalog');
 const {
   effectiveLineStock,
@@ -33,8 +34,22 @@ Page({
     const items = loadCart();
     const savedAddress = loadAddress();
     fetchCatalog().then((data) => {
+      ensureDistrictFromCart(data);
+      const districtId = app.globalData.districtId;
+      if (!districtId) {
+        wx.showModal({
+          title: '请选择区县',
+          content: '结算需要所属区县以匹配自提点，请先选区或返回购物车加购商品。',
+          confirmText: '去选区',
+          showCancel: false,
+          success: () => {
+            wx.navigateTo({ url: '/pages/district-select/district-select' });
+          },
+        });
+        return;
+      }
       const pickupPoints = (data.pickupPoints || []).filter(
-        (p) => p.districtId === app.globalData.districtId
+        (p) => p.districtId === districtId
       );
       const productsById = new Map(
         (data.products || []).map((p) => [p.productId, p])

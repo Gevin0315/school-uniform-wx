@@ -5,6 +5,7 @@ const {
   cartTotalCent,
   formatCent,
   fetchCatalog,
+  ensureDistrictFromCart,
 } = require('../../utils/catalog');
 const { getComponentSkusForSet } = require('../../utils/localStock');
 
@@ -65,6 +66,23 @@ Page({
       wx.showToast({ title: '购物车为空', icon: 'none' });
       return;
     }
-    wx.navigateTo({ url: '/pages/checkout/checkout' });
+    fetchCatalog().then((catalog) => {
+      if (!ensureDistrictFromCart(catalog)) {
+        wx.showModal({
+          title: '请选择区县',
+          content: '结算前请确认所属区县，以便匹配自提点与库存。',
+          confirmText: '去选区',
+          success: (res) => {
+            if (res.confirm) {
+              wx.navigateTo({
+                url: '/pages/district-select/district-select',
+              });
+            }
+          },
+        });
+        return;
+      }
+      wx.navigateTo({ url: '/pages/checkout/checkout' });
+    });
   },
 });
