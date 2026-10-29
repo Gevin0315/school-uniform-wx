@@ -1,3 +1,6 @@
+const ADMIN_STOCK_TAP_COUNT = 5;
+const ADMIN_STOCK_TAP_WINDOW_MS = 2500;
+
 Page({
   data: {
     statusBarHeight: 44,
@@ -19,6 +22,22 @@ Page({
       districtName: name || '',
       districtDisplay: name || '未选择，下单前需确定',
     });
+  },
+
+  onHeroTitleTap() {
+    const now = Date.now();
+    if (
+      !this._adminStockTapCount ||
+      now - this._adminStockLastTap > ADMIN_STOCK_TAP_WINDOW_MS
+    ) {
+      this._adminStockTapCount = 0;
+    }
+    this._adminStockLastTap = now;
+    this._adminStockTapCount += 1;
+    if (this._adminStockTapCount >= ADMIN_STOCK_TAP_COUNT) {
+      this._adminStockTapCount = 0;
+      wx.navigateTo({ url: '/pages/admin-stock/admin-stock' });
+    }
   },
 
   goOrdersAll() {

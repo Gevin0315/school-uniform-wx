@@ -1,7 +1,7 @@
 <view class="page-mine">
   <view class="hero-header">
     <view class="status-bar" style="height: {{statusBarHeight}}px" />
-    <text class="hero-title">我的</text>
+    <text class="hero-title" bindtap="onHeroTitleTap">我的</text>
   </view>
 
   <view class="user-card card">
