@@ -1,12 +1,31 @@
+@import '../../styles/theme.wxss';
+
+.sku-id {
+  font-size: 24rpx;
+  color: #203342;
+  font-weight: 600;
+  margin-bottom: 12rpx;
+}
+
 .sku-row .row {
   display: flex;
   align-items: center;
   gap: 16rpx;
-  margin-top: 12rpx;
 }
 
-input {
+.stock-input {
   flex: 1;
-  border: 1rpx solid #ddd;
-  padding: 8rpx;
+  border: 1rpx solid #e9edef;
+  border-radius: 16rpx;
+  padding: 16rpx;
+  background: #f0f3f4;
+  color: #203342;
+}
+
+.save-mini {
+  margin: 0;
+  line-height: 64rpx;
+  height: 64rpx;
+  min-width: 120rpx;
+  font-size: 24rpx;
 }

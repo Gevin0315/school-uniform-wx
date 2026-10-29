@@ -1,16 +1,21 @@
-<view class="compliance-banner">订单数据不含学生个人敏感信息</view>
+<view class="page-shell">
+  <view class="compliance-banner">订单数据不含学生个人敏感信息</view>
 
-<block wx:for="{{orders}}" wx:key="orderId">
-  <view class="card order-card" data-id="{{item.orderId}}" bindtap="openOrder">
-    <view class="row-top">
-      <text class="status">{{item.statusLabel}}</text>
-      <text class="amount">¥ {{item.amountText}}</text>
+  <block wx:for="{{orders}}" wx:key="orderId">
+    <view class="card order-card" data-id="{{item.orderId}}" bindtap="openOrder">
+      <view class="row-top">
+        <text class="status text-accent">{{item.statusLabel}}</text>
+        <text class="amount text-price">¥ {{item.amountText}}</text>
+      </view>
+      <view class="muted order-id">{{item.orderId}}</view>
+      <view class="order-preview muted" wx:if="{{item.items.length}}">
+        {{item.items[0].name}} 等 {{item.items.length}} 件
+      </view>
+      <text class="order-chevron">›</text>
     </view>
-    <view class="muted order-id">{{item.orderId}}</view>
-    <view class="muted" wx:if="{{item.items.length}}">
-      {{item.items[0].name}} 等 {{item.items.length}} 件
-    </view>
+  </block>
+
+  <view wx:if="{{orders.length === 0}}" class="empty-card card">
+    <text class="empty-title">{{hint}}</text>
   </view>
-</block>
-
-<view wx:if="{{orders.length === 0}}" class="footer-note">{{hint}}</view>
+</view>

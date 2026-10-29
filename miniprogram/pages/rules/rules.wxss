@@ -1,10 +1,7 @@
-.title {
-  font-weight: 600;
-  margin-bottom: 12rpx;
-}
+@import '../../styles/theme.wxss';
 
 .body {
   font-size: 26rpx;
-  line-height: 1.7;
-  color: #444;
+  line-height: 1.75;
+  color: #344956;
 }

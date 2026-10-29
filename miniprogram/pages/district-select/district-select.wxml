@@ -1,24 +1,27 @@
-<view class="compliance-banner">校服自愿选购，非强制、非指定商家</view>
+<view class="page-shell">
+  <view class="compliance-banner">校服自愿选购，非强制、非指定商家</view>
 
-<view class="card">
-  <view class="title">选区县</view>
-  <view class="muted">样板开放：惠城区、惠东县</view>
+  <view class="card intro-card">
+    <view class="section-title">选购校区</view>
+    <text class="muted">可选偏好，用于「我的」展示与下单默认；首页仍可浏览全量商品</text>
+    <text class="muted intro-sub">样板开放：惠城区、惠东县</text>
+  </view>
+
+  <view class="district-list">
+    <block wx:for="{{districts}}" wx:key="districtId">
+      <view
+        class="district-item card {{item.enabled ? '' : 'disabled'}}"
+        data-id="{{item.districtId}}"
+        data-name="{{item.name}}"
+        data-enabled="{{item.enabled}}"
+        bindtap="onSelectDistrict"
+      >
+        <text class="district-name">{{item.name}}</text>
+        <text wx:if="{{!item.enabled}}" class="tag-disabled">即将开放</text>
+        <text wx:else class="arrow">›</text>
+      </view>
+    </block>
+  </view>
+
+  <view class="footer-note">{{complianceFooter}}</view>
 </view>
-
-<view class="district-list">
-  <block wx:for="{{districts}}" wx:key="districtId">
-    <view
-      class="district-item {{item.enabled ? '' : 'disabled'}}"
-      data-id="{{item.districtId}}"
-      data-name="{{item.name}}"
-      data-enabled="{{item.enabled}}"
-      bindtap="onSelectDistrict"
-    >
-      <text>{{item.name}}</text>
-      <text wx:if="{{!item.enabled}}" class="tag-disabled">即将开放</text>
-      <text wx:else class="arrow">›</text>
-    </view>
-  </block>
-</view>
-
-<view class="footer-note">{{complianceFooter}}</view>

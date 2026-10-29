@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "选区县"
+  "navigationBarTitleText": "选区县",
+  "navigationBarBackgroundColor": "#183f5b",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#f6f7f6"
 }

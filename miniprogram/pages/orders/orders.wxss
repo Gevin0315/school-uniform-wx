@@ -1,5 +1,8 @@
+@import '../../styles/theme.wxss';
+
 .order-card {
-  padding: 24rpx;
+  position: relative;
+  padding: 28rpx 56rpx 28rpx 28rpx;
 }
 
 .row-top {
@@ -9,16 +12,39 @@
 }
 
 .status {
-  font-weight: 600;
-  color: #1a5fb4;
+  font-size: 28rpx;
 }
 
 .amount {
-  color: #c0392b;
-  font-weight: 600;
+  font-size: 32rpx;
 }
 
 .order-id {
-  margin-top: 8rpx;
+  margin-top: 10rpx;
   font-size: 22rpx;
+}
+
+.order-preview {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  line-height: 1.4;
+}
+
+.order-chevron {
+  position: absolute;
+  right: 24rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aab3b8;
+  font-size: 36rpx;
+}
+
+.empty-card {
+  text-align: center;
+  padding: 48rpx 28rpx;
+}
+
+.empty-title {
+  color: #70818b;
+  font-size: 26rpx;
 }

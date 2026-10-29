@@ -1,0 +1,129 @@
+/* 子页面共享：与首页/详情/我的同一设计系统 */
+
+.page-shell {
+  min-height: 100vh;
+  background: #f6f7f6;
+  padding-bottom: calc(32rpx + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+}
+
+.page-shell-pad-bar {
+  padding-bottom: calc(160rpx + env(safe-area-inset-bottom));
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #253946;
+  margin-bottom: 16rpx;
+}
+
+.text-price {
+  color: #c2674f;
+  font-weight: 700;
+}
+
+.text-accent {
+  color: #183f5b;
+  font-weight: 600;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  padding: 0 24rpx 16rpx;
+}
+
+.chip {
+  padding: 14rpx 36rpx;
+  border-radius: 999rpx;
+  background: #f0f3f4;
+  color: #61727c;
+  font-size: 24rpx;
+}
+
+.chip-active {
+  background: #183f5b;
+  color: #fff;
+}
+
+.field-input {
+  border-bottom: 1rpx solid #edf0f1;
+  padding: 20rpx 0;
+  margin-bottom: 8rpx;
+  color: #203342;
+  font-size: 28rpx;
+}
+
+.field-input-placeholder {
+  color: #829097;
+}
+
+.bottom-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 20rpx 24rpx calc(20rpx + env(safe-area-inset-bottom));
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 -8rpx 24rpx rgba(22, 51, 75, 0.06);
+}
+
+.bottom-bar-total {
+  font-size: 28rpx;
+  color: #203342;
+}
+
+.bottom-bar-amount {
+  font-size: 36rpx;
+  color: #c2674f;
+  font-weight: 700;
+}
+
+.btn-block {
+  margin: 24rpx;
+}
+
+.btn-block button {
+  width: 100%;
+}
+
+.qty-stepper text {
+  display: inline-block;
+  width: 56rpx;
+  text-align: center;
+  padding: 8rpx;
+  background: #f0f3f4;
+  border-radius: 12rpx;
+  color: #183f5b;
+}
+
+.qty-stepper .num {
+  background: transparent;
+  color: #203342;
+}
+
+.list-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 10rpx 0;
+  gap: 16rpx;
+}
+
+.list-label {
+  color: #829097;
+  flex-shrink: 0;
+  font-size: 26rpx;
+}
+
+.list-value {
+  text-align: right;
+  flex: 1;
+  color: #203342;
+  font-size: 26rpx;
+}

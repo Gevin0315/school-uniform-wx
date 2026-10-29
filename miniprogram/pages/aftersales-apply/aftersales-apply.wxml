@@ -1,27 +1,30 @@
-<view class="compliance-banner">7 天无理由 · 吊牌未摘、未穿洗</view>
+<view class="page-shell">
+  <view class="compliance-banner">7 天无理由 · 吊牌未摘、未穿洗</view>
 
-<view class="card">
-  <view class="section-title">退换说明</view>
-  <text class="muted">{{policy}}</text>
-  <view class="muted order-line">订单：{{orderId}}</view>
-  <view class="state">当前状态：{{stateLabel}}</view>
+  <view class="card">
+    <view class="section-title">退换说明</view>
+    <text class="muted">{{policy}}</text>
+    <view class="muted order-line">订单：{{orderId}}</view>
+    <view class="state text-accent">当前状态：{{stateLabel}}</view>
+  </view>
+
+  <view class="card">
+    <view class="section-title">售后原因</view>
+    <picker range="{{reasons}}" bindchange="onReasonChange">
+      <view class="picker">{{reasons[reasonIndex]}}</view>
+    </picker>
+    <textarea
+      class="note"
+      placeholder="补充说明（选填，请勿填写学生敏感信息）"
+      placeholder-class="field-input-placeholder"
+      bindinput="onNoteInput"
+      value="{{note}}"
+    />
+  </view>
+
+  <view class="card demo-card muted">
+    <view>状态演示：同意 / 拒绝 / 处理中（Gate 2 接真实退款）</view>
+  </view>
+
+  <button class="btn-primary submit-btn" bindtap="submit">提交售后申请</button>
 </view>
-
-<view class="card">
-  <view class="section-title">售后原因</view>
-  <picker range="{{reasons}}" bindchange="onReasonChange">
-    <view class="picker">{{reasons[reasonIndex]}}</view>
-  </picker>
-  <textarea
-    class="note"
-    placeholder="补充说明（选填，请勿填写学生敏感信息）"
-    bindinput="onNoteInput"
-    value="{{note}}"
-  />
-</view>
-
-<view class="card muted">
-  <view>状态演示：同意 / 拒绝 / 处理中（Gate 2 接真实退款）</view>
-</view>
-
-<button class="btn-primary" bindtap="submit">提交售后申请</button>
