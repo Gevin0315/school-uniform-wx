@@ -1,13 +1,11 @@
-<view class="page-shell">
-  <view class="compliance-banner">Gate 1 简易库存 · 占位鉴权 token</view>
+<view class="compliance-banner">Gate 1 简易库存 · 占位鉴权 token</view>
 
-  <block wx:for="{{skus}}" wx:key="skuId">
-    <view class="card sku-row">
-      <view class="sku-id">{{item.skuId}} · 尺码 {{item.size}}</view>
-      <view class="row">
-        <input class="stock-input" type="number" value="{{item.stock}}" data-sku="{{item.skuId}}" bindinput="onStockInput" />
-        <button class="btn-primary save-mini" size="mini" data-sku="{{item.skuId}}" bindtap="saveSku">保存</button>
-      </view>
+<block wx:for="{{skus}}" wx:key="skuId">
+  <view class="card sku-row">
+    <view>{{item.skuId}} · 尺码 {{item.size}}</view>
+    <view class="row">
+      <input type="number" value="{{item.stock}}" data-sku="{{item.skuId}}" bindinput="onStockInput" />
+      <button size="mini" data-sku="{{item.skuId}}" bindtap="saveSku">保存</button>
     </view>
-  </block>
-</view>
+  </view>
+</block>

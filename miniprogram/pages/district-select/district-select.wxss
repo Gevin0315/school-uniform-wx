@@ -1,38 +1,36 @@
 @import '../../styles/theme.wxss';
 
-.intro-card {
-  margin-bottom: 8rpx;
+.block-section {
+  margin-top: 24rpx;
 }
 
-.intro-sub {
-  display: block;
-  margin-top: 12rpx;
-  font-size: 24rpx;
+.chip-row-inset {
+  padding: 0;
+  margin-top: 16rpx;
 }
 
-.district-list {
-  padding: 0 24rpx;
-}
-
-.district-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 16rpx 0;
-  padding: 32rpx 28rpx;
-}
-
-.district-item.disabled {
-  opacity: 0.55;
-}
-
-.district-name {
-  font-size: 30rpx;
+.muted-title {
+  color: #70818b;
+  font-size: 26rpx;
   font-weight: 600;
-  color: #203342;
 }
 
-.arrow {
-  color: #aab3b8;
-  font-size: 36rpx;
+.disabled-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 28rpx;
+  margin: 12rpx 24rpx;
+  background: #fff;
+  border-radius: 24rpx;
+  color: #829097;
+  font-size: 26rpx;
+  opacity: 0.85;
+}
+
+.skip-btn {
+  margin: 32rpx 24rpx 16rpx;
+  line-height: 88rpx;
+  height: 88rpx;
+  font-size: 28rpx;
 }

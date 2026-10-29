@@ -127,3 +127,33 @@
   color: #203342;
   font-size: 26rpx;
 }
+
+/* 与首页一致的米色区县条 */
+.district-bar-beige {
+  margin: 20rpx 24rpx 0;
+  padding: 22rpx 24rpx;
+  background: #f5f1e9;
+  border-radius: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16rpx;
+}
+
+.district-bar-main {
+  font-size: 26rpx;
+  color: #7c6746;
+  flex: 1;
+}
+
+.district-bar-link {
+  font-size: 24rpx;
+  color: #315873;
+  flex-shrink: 0;
+}
+
+.weak-hint {
+  padding: 16rpx 28rpx 0;
+  font-size: 24rpx;
+  line-height: 1.5;
+}
