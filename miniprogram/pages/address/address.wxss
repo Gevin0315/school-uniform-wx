@@ -1,8 +1,8 @@
-input {
-  border-bottom: 1rpx solid #eee;
-  padding: 20rpx 0;
-}
+@import '../../styles/theme.wxss';
 
 .save-btn {
   margin: 24rpx;
+  line-height: 88rpx;
+  height: 88rpx;
+  font-size: 30rpx;
 }

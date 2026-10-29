@@ -1,1 +1,36 @@
-@import '../home/home.wxss';
+@import '../../styles/theme.wxss';
+
+.block-section {
+  margin-top: 24rpx;
+}
+
+.chip-row-inset {
+  padding: 0;
+  margin-top: 16rpx;
+}
+
+.muted-title {
+  color: #70818b;
+  font-size: 26rpx;
+  font-weight: 600;
+}
+
+.disabled-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 28rpx;
+  margin: 12rpx 24rpx;
+  background: #fff;
+  border-radius: 24rpx;
+  color: #829097;
+  font-size: 26rpx;
+  opacity: 0.85;
+}
+
+.skip-btn {
+  margin: 32rpx 24rpx 16rpx;
+  line-height: 88rpx;
+  height: 88rpx;
+  font-size: 28rpx;
+}

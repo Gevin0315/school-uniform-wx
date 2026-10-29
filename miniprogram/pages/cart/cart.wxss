@@ -1,3 +1,5 @@
+@import '../../styles/theme.wxss';
+
 .row-top {
   display: flex;
   justify-content: space-between;
@@ -5,61 +7,62 @@
 }
 
 .name {
-  font-weight: 600;
+  font-weight: 700;
+  color: #203342;
   flex: 1;
+  line-height: 1.4;
 }
 
 .delete {
-  color: #c0392b;
+  color: #c2674f;
   font-size: 24rpx;
 }
 
 .components {
-  margin: 12rpx 0;
-  padding: 12rpx;
-  background: #f8f9fa;
-  border-radius: 8rpx;
+  margin: 16rpx 0;
+  padding: 16rpx;
+  background: #f0f3f4;
+  border-radius: 24rpx;
 }
 
 .comp-title {
   font-size: 22rpx;
-  color: #666;
+  color: #70818b;
 }
 
 .comp-line {
   font-size: 22rpx;
-  margin-top: 4rpx;
+  margin-top: 6rpx;
 }
 
 .row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 16rpx;
+  margin-top: 20rpx;
 }
 
-.qty text {
-  display: inline-block;
-  width: 56rpx;
+.line-total {
+  font-size: 32rpx;
+}
+
+.empty-card {
   text-align: center;
-  padding: 8rpx;
-  background: #f0f0f0;
-  border-radius: 6rpx;
+  padding: 48rpx 28rpx;
 }
 
-.qty .num {
-  background: transparent;
+.empty-title {
+  display: block;
+  font-weight: 700;
+  color: #203342;
+  margin-bottom: 8rpx;
 }
 
-.bar {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 24rpx;
-  background: #fff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 -2rpx 8rpx rgba(0, 0, 0, 0.06);
+.checkout-btn {
+  margin: 0;
+  min-width: 200rpx;
+  line-height: 80rpx;
+  height: 80rpx;
+  font-size: 28rpx;
+  padding: 0 40rpx;
 }

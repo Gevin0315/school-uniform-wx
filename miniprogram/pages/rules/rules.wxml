@@ -1,16 +1,23 @@
-<view class="compliance-banner">校服自愿选购平台规则（样板）</view>
+<view class="page-shell">
+  <view class="compliance-banner">校服自愿选购平台规则（样板）</view>
 
-<view class="card">
-  <view class="title">选购说明</view>
-  <text class="body">本平台为校服自愿选购服务，非强制购买，非指定唯一商家。家长可按需为子女选购合码校服。</text>
-</view>
+  <view class="card">
+    <view class="section-title">选购说明</view>
+    <text class="body">本平台为校服自愿选购服务，非强制购买，非指定唯一商家。家长可按需为子女选购合码校服。</text>
+  </view>
 
-<view class="card">
-  <view class="title">隐私说明</view>
-  <text class="body">我们仅收集下单与履约必要信息：收货人姓名、联系电话、收货地址或自提联系方式。不采集学生学籍号、班级强制绑定等敏感信息。</text>
-</view>
+  <view class="card">
+    <view class="section-title">尺码与换码</view>
+    <text class="body">支持 7 天无理由退货与尺码换码申请（以实物及平台规则为准）。请在下单前参考商品详情尺码，如有疑问咨询学校或主管部门。</text>
+  </view>
 
-<view class="card">
-  <view class="title">支付说明</view>
-  <text class="body">当前版本支付为占位能力，订单提交后处于「待支付」状态，界面不会暗示已完成真实收款。正式微信支付将在商户号就绪后接入。</text>
+  <view class="card">
+    <view class="section-title">隐私说明</view>
+    <text class="body">我们仅收集下单与履约必要信息：收货人姓名、联系电话、收货地址或自提联系方式。不采集学生学籍号、班级强制绑定等敏感信息。</text>
+  </view>
+
+  <view class="card">
+    <view class="section-title">支付说明</view>
+    <text class="body">当前版本支付为占位能力，订单提交后处于「待支付」状态，界面不会暗示已完成真实收款。正式微信支付将在商户号就绪后接入。</text>
+  </view>
 </view>

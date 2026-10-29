@@ -1,39 +1,23 @@
-.row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 8rpx 0;
-  gap: 16rpx;
+@import '../../styles/theme.wxss';
+
+.summary-card {
+  margin-top: 0;
 }
 
-.label {
-  color: #888;
-  flex-shrink: 0;
+.status-pill {
+  color: #183f5b;
+  font-weight: 700;
 }
 
-.value {
-  text-align: right;
-  flex: 1;
-}
-
-.status {
-  color: #e65100;
-  font-weight: 600;
-}
-
-.price {
-  color: #c0392b;
-  font-weight: 600;
-}
-
-.section-title {
-  font-weight: 600;
-  margin-bottom: 16rpx;
+.payment-note {
+  margin-top: 16rpx;
+  font-size: 22rpx;
+  line-height: 1.5;
 }
 
 .line-item {
-  padding: 16rpx 0;
-  border-bottom: 1rpx solid #f0f0f0;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #edf0f1;
 }
 
 .line-item:last-child {
@@ -41,31 +25,53 @@
 }
 
 .name {
-  font-weight: 500;
+  font-weight: 600;
+  color: #203342;
 }
 
 .line-price {
   margin-top: 8rpx;
   text-align: right;
+  font-size: 30rpx;
 }
 
 .pickup .code {
   font-family: monospace;
   font-weight: 700;
-  color: #1a5fb4;
+  color: #183f5b;
   letter-spacing: 2rpx;
+  font-size: 30rpx;
+}
+
+.pickup-status {
+  margin-top: 12rpx;
+  font-size: 24rpx;
+}
+
+.pickup-hint {
+  margin-top: 8rpx;
+  font-size: 22rpx;
 }
 
 .pay-block {
-  padding: 24rpx;
+  margin-top: 0;
+}
+
+.pay-btn {
+  width: 100%;
+  line-height: 88rpx;
+  height: 88rpx;
+  margin: 0;
 }
 
 .pay-hint {
   text-align: center;
-  margin-top: 12rpx;
+  margin-top: 16rpx;
   font-size: 22rpx;
 }
 
 .after-btn {
   margin: 0 24rpx 48rpx;
+  line-height: 88rpx;
+  height: 88rpx;
 }

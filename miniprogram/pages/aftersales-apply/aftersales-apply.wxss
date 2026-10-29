@@ -1,25 +1,41 @@
-.section-title {
-  font-weight: 600;
-  margin-bottom: 12rpx;
-}
+@import '../../styles/theme.wxss';
 
 .order-line {
   margin-top: 16rpx;
+  font-size: 24rpx;
 }
 
 .state {
-  margin-top: 8rpx;
-  color: #1a5fb4;
+  margin-top: 12rpx;
+  font-size: 26rpx;
 }
 
 .picker {
-  padding: 16rpx 0;
-  border-bottom: 1rpx solid #eee;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #edf0f1;
+  color: #203342;
 }
 
 .note {
-  margin-top: 16rpx;
+  margin-top: 20rpx;
   width: 100%;
-  min-height: 120rpx;
+  min-height: 160rpx;
   box-sizing: border-box;
+  padding: 16rpx;
+  background: #f0f3f4;
+  border-radius: 24rpx;
+  font-size: 26rpx;
+  color: #203342;
+}
+
+.demo-card {
+  font-size: 24rpx;
+  line-height: 1.5;
+}
+
+.submit-btn {
+  margin: 8rpx 24rpx 48rpx;
+  line-height: 88rpx;
+  height: 88rpx;
+  font-size: 30rpx;
 }

@@ -1,40 +1,60 @@
-<view wx:if="{{order}}" class="compliance-banner">支付为占位，非真实收款</view>
+<view class="page-shell">
+  <view wx:if="{{order}}" class="compliance-banner">支付为占位，非真实收款</view>
 
-<view wx:if="{{order}}" class="card">
-  <view class="row"><text class="label">订单号</text><text class="value">{{order.orderId}}</text></view>
-  <view class="row"><text class="label">状态</text><text class="value status">{{order.statusLabel}}</text></view>
-  <view class="row"><text class="label">金额</text><text class="value price">¥ {{order.amountText}}</text></view>
-  <view class="row"><text class="label">履约</text><text class="value">{{order.fulfillmentText}}</text></view>
-  <view class="row muted">{{order.payment.note}}</view>
-</view>
-
-<view wx:if="{{order}}" class="card">
-  <view class="section-title">商品明细</view>
-  <block wx:for="{{order.items}}" wx:key="skuId">
-    <view class="line-item">
-      <view class="name">{{item.name}}</view>
-      <view class="muted">尺码 {{item.size}} × {{item.qty}}</view>
-      <view class="line-price">¥ {{item.lineTotalText}}</view>
+  <view wx:if="{{order}}" class="card summary-card">
+    <view class="list-row">
+      <text class="list-label">订单号</text>
+      <text class="list-value">{{order.orderId}}</text>
     </view>
-  </block>
+    <view class="list-row">
+      <text class="list-label">状态</text>
+      <text class="list-value status-pill">{{order.statusLabel}}</text>
+    </view>
+    <view class="list-row">
+      <text class="list-label">金额</text>
+      <text class="list-value text-price">¥ {{order.amountText}}</text>
+    </view>
+    <view class="list-row">
+      <text class="list-label">履约</text>
+      <text class="list-value">{{order.fulfillmentText}}</text>
+    </view>
+    <view class="payment-note muted">{{order.payment.note}}</view>
+  </view>
+
+  <view wx:if="{{order}}" class="card">
+    <view class="section-title">商品明细</view>
+    <block wx:for="{{order.items}}" wx:key="skuId">
+      <view class="line-item">
+        <view class="name">{{item.name}}</view>
+        <view class="muted">尺码 {{item.size}} × {{item.qty}}</view>
+        <view class="line-price text-price">¥ {{item.lineTotalText}}</view>
+      </view>
+    </block>
+  </view>
+
+  <view wx:if="{{order.showPickupBlock}}" class="card pickup">
+    <view class="section-title">自提核销</view>
+    <view class="list-row">
+      <text class="list-label">核销码</text>
+      <text class="code">{{order.pickupCode}}</text>
+    </view>
+    <view class="muted pickup-status">{{order.pickupStatusText}}</view>
+    <view class="muted pickup-hint">（样板占位码，正式环境支付成功后生效）</view>
+  </view>
+
+  <view wx:if="{{order}}" class="card">
+    <view class="list-row">
+      <text class="list-label">售后</text>
+      <text class="list-value">{{order.aftersalesLabel}}</text>
+    </view>
+  </view>
+
+  <view wx:if="{{order && order.payDisabled}}" class="pay-block card">
+    <button class="btn-primary pay-btn" disabled bindtap="onPayTap">去支付（未接入）</button>
+    <view class="pay-hint muted">{{payHint}}</view>
+  </view>
+
+  <button wx:if="{{order}}" class="btn-secondary after-btn" bindtap="applyAftersales">申请售后</button>
+
+  <view wx:if="{{!order}}" class="footer-note">未找到订单，请从「我的订单」进入</view>
 </view>
-
-<view wx:if="{{order.showPickupBlock}}" class="card pickup">
-  <view class="section-title">自提核销</view>
-  <view class="row"><text class="label">核销码</text><text class="code">{{order.pickupCode}}</text></view>
-  <view class="muted">{{order.pickupStatusText}}</view>
-  <view class="muted">（样板占位码，正式环境支付成功后生效）</view>
-</view>
-
-<view wx:if="{{order}}" class="card">
-  <view class="row"><text class="label">售后</text><text>{{order.aftersalesLabel}}</text></view>
-</view>
-
-<view wx:if="{{order && order.payDisabled}}" class="pay-block">
-  <button class="btn-primary" disabled bindtap="onPayTap">去支付（未接入）</button>
-  <view class="pay-hint muted">{{payHint}}</view>
-</view>
-
-<button wx:if="{{order}}" class="btn-secondary after-btn" bindtap="applyAftersales">申请售后</button>
-
-<view wx:if="{{!order}}" class="footer-note">未找到订单，请从「我的订单」进入</view>

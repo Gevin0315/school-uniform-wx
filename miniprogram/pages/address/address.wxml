@@ -1,9 +1,12 @@
-<view class="compliance-banner">仅保存必要收货信息，不采集学生敏感信息</view>
+<view class="page-shell">
+  <view class="compliance-banner">仅保存必要收货信息，不采集学生敏感信息</view>
 
-<view class="card">
-  <input placeholder="收货人" value="{{address.name}}" data-field="name" bindinput="onInput" />
-  <input placeholder="手机号" type="number" value="{{address.phone}}" data-field="phone" bindinput="onInput" />
-  <input placeholder="详细地址" value="{{address.detail}}" data-field="detail" bindinput="onInput" />
+  <view class="card">
+    <view class="section-title">收货信息</view>
+    <input class="field-input" placeholder="收货人" placeholder-class="field-input-placeholder" value="{{address.name}}" data-field="name" bindinput="onInput" />
+    <input class="field-input" placeholder="手机号" placeholder-class="field-input-placeholder" type="number" value="{{address.phone}}" data-field="phone" bindinput="onInput" />
+    <input class="field-input" placeholder="详细地址" placeholder-class="field-input-placeholder" value="{{address.detail}}" data-field="detail" bindinput="onInput" />
+  </view>
+
+  <button class="btn-primary save-btn" bindtap="save">保存地址</button>
 </view>
-
-<button class="btn-primary save-btn" bindtap="save">保存地址</button>

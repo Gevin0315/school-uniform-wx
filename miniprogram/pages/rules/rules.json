@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "规则与隐私",
   "navigationBarBackgroundColor": "#183f5b",
-  "navigationBarTextStyle": "white"
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#f6f7f6"
 }
