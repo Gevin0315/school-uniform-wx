@@ -43,6 +43,86 @@ function clearCart() {
   saveCart([]);
 }
 
+function districtNameFor(catalog, districtId) {
+  const row = (catalog.districts || []).find((d) => d.districtId === districtId);
+  return row ? row.name : '';
+}
+
+function syncSelectedDistrict(districtId, catalog) {
+  const app = getApp();
+  const districtName = districtNameFor(catalog, districtId);
+  app.globalData.districtId = districtId;
+  app.globalData.districtName = districtName;
+  wx.setStorageSync('selectedDistrict', {
+    districtId,
+    districtName,
+  });
+  return districtName;
+}
+
+function cartDistrictId(cart) {
+  if (!cart || cart.length === 0) {
+    return '';
+  }
+  return cart[0].districtId || '';
+}
+
+/**
+ * 同一购物车不可跨区；加购他区商品时提示后清空再加。
+ * @returns {Promise<{ added: boolean }>}
+ */
+function addToCartWithDistrictPolicy(entry, catalog) {
+  const cart = loadCart();
+  const entryDistrict = entry.districtId;
+  if (!entryDistrict) {
+    return Promise.resolve({ added: false });
+  }
+  if (cart.length === 0) {
+    syncSelectedDistrict(entryDistrict, catalog);
+    addToCart(entry);
+    return Promise.resolve({ added: true });
+  }
+  const existingDistrict = cartDistrictId(cart);
+  if (existingDistrict === entryDistrict) {
+    addToCart(entry);
+    return Promise.resolve({ added: true });
+  }
+  const fromName = districtNameFor(catalog, existingDistrict) || '其他区县';
+  const toName = districtNameFor(catalog, entryDistrict) || '当前区县';
+  return new Promise((resolve) => {
+    wx.showModal({
+      title: '切换区县',
+      content: `购物车已有「${fromName}」商品，继续将清空购物车并加入「${toName}」商品。`,
+      confirmText: '清空并加入',
+      cancelText: '取消',
+      success: (res) => {
+        if (!res.confirm) {
+          resolve({ added: false });
+          return;
+        }
+        clearCart();
+        syncSelectedDistrict(entryDistrict, catalog);
+        addToCart(entry);
+        resolve({ added: true });
+      },
+    });
+  });
+}
+
+function ensureDistrictFromCart(catalog) {
+  const app = getApp();
+  if (app.globalData.districtId) {
+    return true;
+  }
+  const cart = loadCart();
+  const fromCart = cartDistrictId(cart);
+  if (!fromCart) {
+    return false;
+  }
+  syncSelectedDistrict(fromCart, catalog);
+  return true;
+}
+
 function cartTotalCent(cart) {
   return cart.reduce((sum, i) => sum + (i.priceCent || 0) * (i.qty || 0), 0);
 }
@@ -138,6 +218,11 @@ module.exports = {
   loadCart,
   saveCart,
   addToCart,
+  addToCartWithDistrictPolicy,
+  syncSelectedDistrict,
+  cartDistrictId,
+  ensureDistrictFromCart,
+  districtNameFor,
   updateCartQty,
   removeFromCart,
   clearCart,

@@ -35,6 +35,11 @@ Page({
       districtId: id,
       districtName: name,
     });
+    const pages = getCurrentPages();
+    if (pages.length > 1) {
+      wx.navigateBack();
+      return;
+    }
     wx.switchTab({ url: '/pages/home/home' });
   },
 });

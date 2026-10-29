@@ -1,4 +1,9 @@
-const { fetchCatalog, addToCart, formatCent } = require('../../utils/catalog');
+const {
+  fetchCatalog,
+  addToCartWithDistrictPolicy,
+  districtNameFor,
+  formatCent,
+} = require('../../utils/catalog');
 const { effectiveLineStock } = require('../../utils/stock');
 const { RETURN_POLICY_COPY } = require('../../utils/aftersales');
 
@@ -12,11 +17,11 @@ Page({
     sizeChart: [],
     returnPolicy: RETURN_POLICY_COPY,
     qty: 1,
+    districtLabel: '',
   },
 
   onLoad(query) {
     const productId = query.id;
-    const app = getApp();
     fetchCatalog().then((data) => {
       const product = (data.products || []).find((p) => p.productId === productId);
       const skus = (data.skus || []).filter((s) => s.productId === productId);
@@ -26,10 +31,10 @@ Page({
         catalog: data,
         skus,
         sizeChart: sizes,
+        districtLabel: product
+          ? districtNameFor(data, product.districtId)
+          : '',
       });
-      if (!product || product.districtId !== app.globalData.districtId) {
-        wx.showToast({ title: '请先选择区县', icon: 'none' });
-      }
     });
   },
 
@@ -58,7 +63,6 @@ Page({
 
   buildCartEntry() {
     const { selectedSku, product, qty } = this.data;
-    const app = getApp();
     if (!selectedSku || !product) {
       return null;
     }
@@ -74,7 +78,7 @@ Page({
       name: product.name,
       size: selectedSku.size,
       priceCent: selectedSku.priceCent,
-      districtId: app.globalData.districtId,
+      districtId: product.districtId,
       typeLabel: product.typeLabel,
       qty,
     };
@@ -86,8 +90,11 @@ Page({
       wx.showToast({ title: '请选择有库存的尺码', icon: 'none' });
       return;
     }
-    addToCart(entry);
-    wx.showToast({ title: '已加入购物车' });
+    addToCartWithDistrictPolicy(entry, this.data.catalog).then(({ added }) => {
+      if (added) {
+        wx.showToast({ title: '已加入购物车' });
+      }
+    });
   },
 
   addSetBundle() {
@@ -100,8 +107,12 @@ Page({
     if (!entry) {
       return;
     }
-    addToCart(entry);
-    wx.showToast({ title: '成套已加购' });
-    wx.navigateTo({ url: '/pages/cart/cart' });
+    addToCartWithDistrictPolicy(entry, this.data.catalog).then(({ added }) => {
+      if (!added) {
+        return;
+      }
+      wx.showToast({ title: '成套已加购' });
+      wx.navigateTo({ url: '/pages/cart/cart' });
+    });
   },
 });

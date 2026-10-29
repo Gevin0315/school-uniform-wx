@@ -1,17 +1,18 @@
 const {
   fetchCatalog,
   enrichProductCards,
-  addToCart,
+  addToCartWithDistrictPolicy,
 } = require('../../utils/catalog');
 const { effectiveLineStock } = require('../../utils/stock');
 
 Page({
   data: {
     districtName: '',
-    districtId: '',
+    districts: [],
     products: [],
     displayProducts: [],
     seasons: [],
+    filterDistrict: '',
     filterSeason: '',
     filterType: '',
     filterStock: '',
@@ -20,21 +21,24 @@ Page({
 
   onShow() {
     const app = getApp();
-    if (!app.globalData.districtId) {
-      wx.redirectTo({ url: '/pages/district-select/district-select' });
-      return;
-    }
     this.setData({
       districtName: app.globalData.districtName,
-      districtId: app.globalData.districtId,
     });
-    this.loadProducts(app.globalData.districtId);
+    this.loadCatalog();
   },
 
-  loadProducts(districtId) {
+  loadCatalog() {
     fetchCatalog().then((data) => {
+      const enabledIds = new Set(
+        (data.districts || [])
+          .filter((d) => d.enabled)
+          .map((d) => d.districtId)
+      );
+      const districtLabels = Object.fromEntries(
+        (data.districts || []).map((d) => [d.districtId, d.name])
+      );
       const products = (data.products || []).filter(
-        (p) => p.districtId === districtId && p.type !== 'component'
+        (p) => enabledIds.has(p.districtId) && p.type !== 'component'
       );
       const seasonLabels = Object.fromEntries(
         (data.seasons || []).map((s) => [s.seasonId, s.label])
@@ -42,10 +46,12 @@ Page({
       const enriched = enrichProductCards(products, data).map((p) => ({
         ...p,
         seasonLabel: seasonLabels[p.seasonId] || '',
+        districtLabel: districtLabels[p.districtId] || '',
       }));
       this.setData({
         products: enriched,
         seasons: data.seasons || [],
+        districts: (data.districts || []).filter((d) => d.enabled),
         catalog: data,
       });
       this.applyFilters();
@@ -53,8 +59,17 @@ Page({
   },
 
   applyFilters() {
-    const { products, filterSeason, filterType, filterStock } = this.data;
+    const {
+      products,
+      filterDistrict,
+      filterSeason,
+      filterType,
+      filterStock,
+    } = this.data;
     let list = products;
+    if (filterDistrict) {
+      list = list.filter((p) => p.districtId === filterDistrict);
+    }
     if (filterSeason) {
       list = list.filter((p) => p.seasonId === filterSeason);
     }
@@ -67,6 +82,12 @@ Page({
       list = list.filter((p) => p.stockLevel !== 'out');
     }
     this.setData({ displayProducts: list });
+  },
+
+  onDistrictTap(e) {
+    const district = e.currentTarget.dataset.district;
+    const next = this.data.filterDistrict === district ? '' : district;
+    this.setData({ filterDistrict: next }, () => this.applyFilters());
   },
 
   onSeasonTap(e) {
@@ -97,17 +118,11 @@ Page({
   },
 
   oneClickSet() {
-    const app = getApp();
     const data = this.data.catalog;
     if (!data) {
       return;
     }
-    const setProduct = (data.products || []).find(
-      (p) =>
-        p.districtId === app.globalData.districtId &&
-        p.type === 'set' &&
-        (!this.data.filterSeason || p.seasonId === this.data.filterSeason)
-    );
+    const setProduct = this.data.displayProducts.find((p) => p.type === 'set');
     if (!setProduct) {
       wx.showToast({ title: '当前筛选下暂无套装', icon: 'none' });
       return;
@@ -121,26 +136,33 @@ Page({
       wx.showToast({ title: '默认尺码 140 暂无库存', icon: 'none' });
       return;
     }
-    addToCart({
-      skuId: sku.skuId,
-      productId: setProduct.productId,
-      productType: setProduct.type,
-      name: setProduct.name,
-      size,
-      priceCent: sku.priceCent,
-      districtId: app.globalData.districtId,
-      typeLabel: setProduct.typeLabel,
-    });
-    wx.showModal({
-      title: '一键成套',
-      content: `已将「${setProduct.name}」尺码 ${size} 加入购物车，可在购物车修改尺码与数量。`,
-      confirmText: '去购物车',
-      cancelText: '继续逛',
-      success: (res) => {
-        if (res.confirm) {
-          wx.navigateTo({ url: '/pages/cart/cart' });
-        }
+    addToCartWithDistrictPolicy(
+      {
+        skuId: sku.skuId,
+        productId: setProduct.productId,
+        productType: setProduct.type,
+        name: setProduct.name,
+        size,
+        priceCent: sku.priceCent,
+        districtId: setProduct.districtId,
+        typeLabel: setProduct.typeLabel,
       },
+      data
+    ).then(({ added }) => {
+      if (!added) {
+        return;
+      }
+      wx.showModal({
+        title: '一键成套',
+        content: `已将「${setProduct.name}」尺码 ${size} 加入购物车，可在购物车修改尺码与数量。`,
+        confirmText: '去购物车',
+        cancelText: '继续逛',
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({ url: '/pages/cart/cart' });
+          }
+        },
+      });
     });
   },
 

@@ -3,7 +3,7 @@
 <view class="hero card" wx:if="{{product}}">
   <view class="hero-cover placeholder-cover" />
   <view class="name">{{product.name}}</view>
-  <view class="muted">{{product.typeLabel}}</view>
+  <view class="muted">{{districtLabel}} · {{product.typeLabel}}</view>
   <view wx:if="{{selectedSku}}" class="price">¥ {{priceText}}</view>
 </view>
 
