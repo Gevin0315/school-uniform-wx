@@ -1,9 +1,4 @@
-const {
-  fetchCatalog,
-  enrichProductCards,
-  addToCartWithDistrictPolicy,
-} = require('../../utils/catalog');
-const { effectiveLineStock } = require('../../utils/stock');
+const { fetchCatalog, enrichProductCards } = require('../../utils/catalog');
 
 function shortProductTitle(name) {
   return (name || '')
@@ -189,7 +184,11 @@ Page({
   },
 
   onComboTap() {
-    wx.showToast({ title: '搭配推荐即将上线', icon: 'none' });
+    const { filterSeason } = this.data;
+    const seasonQuery = filterSeason ? `&season=${filterSeason}` : '';
+    wx.navigateTo({
+      url: `/pages/catalog/catalog?setsOnly=1${seasonQuery}`,
+    });
   },
 
   openProduct(e) {
@@ -197,56 +196,4 @@ Page({
     wx.navigateTo({ url: `/pages/product-detail/product-detail?id=${id}` });
   },
 
-  oneClickSet() {
-    const data = this.data.catalog;
-    if (!data) {
-      return;
-    }
-    const setProduct = this.data.displayProducts.find((p) => p.type === 'set');
-    if (!setProduct) {
-      wx.showToast({ title: '当前筛选下暂无套装', icon: 'none' });
-      return;
-    }
-    const size = 140;
-    const sku = (data.skus || []).find(
-      (s) => s.productId === setProduct.productId && s.size === size
-    );
-    const stock = effectiveLineStock(setProduct, size, data);
-    if (!sku || stock <= 0) {
-      wx.showToast({ title: '默认尺码 140 暂无库存', icon: 'none' });
-      return;
-    }
-    addToCartWithDistrictPolicy(
-      {
-        skuId: sku.skuId,
-        productId: setProduct.productId,
-        productType: setProduct.type,
-        name: setProduct.name,
-        size,
-        priceCent: sku.priceCent,
-        districtId: setProduct.districtId,
-        typeLabel: setProduct.typeLabel,
-      },
-      data
-    ).then(({ added }) => {
-      if (!added) {
-        return;
-      }
-      wx.showModal({
-        title: '一键成套',
-        content: `已将「${setProduct.name}」尺码 ${size} 加入购物车，可在购物车修改尺码与数量。`,
-        confirmText: '去购物车',
-        cancelText: '继续逛',
-        success: (res) => {
-          if (res.confirm) {
-            wx.navigateTo({ url: '/pages/cart/cart' });
-          }
-        },
-      });
-    });
-  },
-
-  goCart() {
-    wx.navigateTo({ url: '/pages/cart/cart' });
-  },
 });

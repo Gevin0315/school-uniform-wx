@@ -15,7 +15,7 @@
     "pages/admin-stock/admin-stock"
   ],
   "window": {
-    "navigationBarTitleText": "校服优选",
+    "navigationBarTitleText": "惠州校服选购",
     "navigationBarBackgroundColor": "#183f5b",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#e9edf0"
