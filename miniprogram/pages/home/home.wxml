@@ -1,4 +1,4 @@
-<view class="compliance-banner">自愿选购 · 惠城 / 惠东样板区</view>
+<view class="compliance-banner">自愿选购 · {{districtName || '请先选择区县'}}</view>
 
 <view class="district-capsule" bindtap="changeDistrict">
   <text class="capsule-label">当前区县</text>
@@ -6,24 +6,81 @@
   <text class="capsule-change">更换 ›</text>
 </view>
 
-<view class="card">
-  <view class="title">按季节选购</view>
-  <view class="season-grid">
-    <block wx:for="{{seasons}}" wx:key="seasonId">
+<view class="filter-section">
+  <view class="filter-row">
+    <text class="filter-label">季节</text>
+    <scroll-view class="filter-scroll" scroll-x enable-flex>
       <view
-        class="season-tile"
-        data-season="{{item.seasonId}}"
-        bindtap="openSeason"
-      >
-        <text class="season-name">{{item.label}}</text>
-        <text class="season-hint">单买 / 套装</text>
-      </view>
-    </block>
+        class="tab {{filterSeason === '' ? 'active' : ''}}"
+        data-season=""
+        bindtap="onSeasonTap"
+      >全部</view>
+      <block wx:for="{{seasons}}" wx:key="seasonId">
+        <view
+          class="tab {{filterSeason === item.seasonId ? 'active' : ''}}"
+          data-season="{{item.seasonId}}"
+          bindtap="onSeasonTap"
+        >{{item.label}}</view>
+      </block>
+    </scroll-view>
+  </view>
+
+  <view class="filter-row">
+    <text class="filter-label">类型</text>
+    <view class="filter-chips">
+      <view
+        class="tab {{filterType === '' ? 'active' : ''}}"
+        data-type=""
+        bindtap="onTypeTap"
+      >全部</view>
+      <view
+        class="tab {{filterType === 'set' ? 'active' : ''}}"
+        data-type="set"
+        bindtap="onTypeTap"
+      >套装</view>
+      <view
+        class="tab {{filterType === 'single' ? 'active' : ''}}"
+        data-type="single"
+        bindtap="onTypeTap"
+      >单件</view>
+    </view>
+  </view>
+
+  <view class="filter-row">
+    <text class="filter-label">库存</text>
+    <view class="filter-chips">
+      <view
+        class="tab {{filterStock === '' ? 'active' : ''}}"
+        data-stock=""
+        bindtap="onStockTap"
+      >全部</view>
+      <view
+        class="tab {{filterStock === 'in_stock' ? 'active' : ''}}"
+        data-stock="in_stock"
+        bindtap="onStockTap"
+      >仅有货</view>
+    </view>
   </view>
 </view>
 
-<view class="card set-entry" bindtap="openSetBundle">
-  <view class="title">成套选购</view>
-  <view class="muted">一键浏览当前区县全部套装款式</view>
-  <text class="arrow">›</text>
+<view class="toolbar card">
+  <button class="btn-primary set-btn" size="mini" bindtap="oneClickSet">一键成套</button>
+  <button class="btn-secondary mini" size="mini" bindtap="goCart">购物车</button>
 </view>
+
+<block wx:for="{{displayProducts}}" wx:key="productId">
+  <view class="card product-card" data-id="{{item.productId}}" bindtap="openProduct">
+    <view class="cover placeholder-cover" />
+    <view class="info">
+      <view class="name">{{item.name}}</view>
+      <view class="muted">{{item.typeLabel}} · {{item.seasonLabel}}</view>
+      <view class="meta-row">
+        <text class="price">¥ {{item.priceText}}</text>
+        <text class="stock stock-{{item.stockLevel}}">{{item.stockText}}</text>
+      </view>
+    </view>
+  </view>
+</block>
+
+<view wx:if="{{displayProducts.length === 0 && products.length > 0}}" class="footer-note">暂无符合筛选的商品，请调整筛选条件</view>
+<view wx:if="{{products.length === 0}}" class="footer-note">暂无商品，请更换区县</view>
