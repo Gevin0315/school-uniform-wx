@@ -1,5 +1,5 @@
 const cloud = require('wx-server-sdk');
-const { getCatalog } = require('../common/seed');
+const { getCatalog } = require('./common/seed');
 
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 
@@ -19,7 +19,7 @@ exports.main = async () => {
         productsCol.get(),
         db.collection('skus').get(),
       ]);
-      const { SET_COMPONENTS } = require('../common/seed');
+      const { SET_COMPONENTS } = require('./common/seed');
       return {
         ok: true,
         source: 'database',

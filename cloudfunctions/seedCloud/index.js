@@ -1,5 +1,5 @@
 const cloud = require('wx-server-sdk');
-const { PRODUCTS, SKUS, getCatalog } = require('../common/seed');
+const { PRODUCTS, SKUS, getCatalog } = require('./common/seed');
 
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 
