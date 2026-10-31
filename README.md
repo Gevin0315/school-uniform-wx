@@ -41,7 +41,7 @@
 
 1. 克隆本仓库，用微信开发者工具 **导入项目**，目录选仓库根目录。
 2. **AppID**：正式开发需替换 `project.config.json` 中的 `appid`；无 AppID 时可先用测试号/体验模式（部分云能力受限，以官方文档为准）。
-3. **云开发环境**：在 `miniprogram/app.js` 将常量 `CLOUD_ENV_ID`（默认占位 `replace-with-your-cloud-env-id`）改为你的云环境 ID；占位未改时自动走 **本地 seed 预览**。在工具栏开通云开发并 **上传并部署** `cloudfunctions/` 下各函数（含 `common/seed.js` 依赖路径）。
+3. **云开发环境**：在 `miniprogram/app.js` 将常量 `CLOUD_ENV_ID`（默认占位 `replace-with-your-cloud-env-id`）改为你的云环境 ID；占位未改时自动走 **本地 seed 预览**。修改 `cloudfunctions/common/` 后先执行 `node cloudfunctions/scripts/sync-common.js`，再对各云函数 **上传并部署（云端安装依赖）**（勿将 `common` 当作独立云函数部署，见 `cloudfunctions/common/README.md`）。
    - **空库灌数**：在云控制台创建空集合 `districts`、`products`、`skus`、`pickup_points`、`orders`（及后续需要的 `users`）→ 对 `seedCloud` **云端安装依赖** 并部署 → 开发者工具 **云函数 → seedCloud → 测试**（空 event `{}`）→ 重新编译。成功后 `listCatalog` 应返回 `source: 'database'`。若目录已误建空文档导致仍走 seed，可测试 `{ "force": true }` 清空上述四个目录集合后重写（**不会**删除 `orders` / `users`）。
 4. 编译运行：未配置云环境 ID 时默认 **本地 seed 预览**（无需部署云函数）；选区县 → 首页 → 商品 → 购物车 → 结算 → **待支付** 订单详情。**支付为占位**，非真收款。
 5. Gate 1 管理页：首页 → 库存管理，默认 token 为 `gate1-dev-token`（上线前必须更换鉴权方式）。

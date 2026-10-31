@@ -1,5 +1,5 @@
 const cloud = require('wx-server-sdk');
-const { reserveAndDeductStock } = require('../common/stock');
+const { reserveAndDeductStock } = require('./common/stock');
 
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 
