@@ -9,6 +9,9 @@ const CATALOG_COLLECTIONS = ['districts', 'pickup_points', 'products', 'skus'];
 
 const SAMPLE_ORDER_IDS = ['ord_seed_demo_001', 'ord_seed_demo_002'];
 
+/** 并发写入上限，避免串行 hundreds 次 set 触发默认 3s 超时 */
+const WRITE_CHUNK_SIZE = 20;
+
 /** 分批删除集合内全部文档（仅 seedCloud 在 force 时使用） */
 async function clearCollection(collectionName) {
   const col = db.collection(collectionName);
@@ -32,34 +35,30 @@ async function setDocument(collectionName, docId, data) {
   await db.collection(collectionName).doc(docId).set({ data });
 }
 
+async function seedRows(collectionName, rows, idField) {
+  let written = 0;
+  for (let i = 0; i < rows.length; i += WRITE_CHUNK_SIZE) {
+    const chunk = rows.slice(i, i + WRITE_CHUNK_SIZE);
+    await Promise.all(
+      chunk.map((row) => setDocument(collectionName, row[idField], { ...row }))
+    );
+    written += chunk.length;
+  }
+  return written;
+}
+
 async function seedCatalogCollections() {
   const catalog = getCatalog();
   const counts = {
-    districts: 0,
-    pickup_points: 0,
-    products: 0,
-    skus: 0,
+    districts: await seedRows('districts', catalog.districts, 'districtId'),
+    pickup_points: await seedRows(
+      'pickup_points',
+      catalog.pickupPoints,
+      'pickupId'
+    ),
+    products: await seedRows('products', catalog.products, 'productId'),
+    skus: await seedRows('skus', catalog.skus, 'skuId'),
   };
-
-  for (const row of catalog.districts) {
-    await setDocument('districts', row.districtId, { ...row });
-    counts.districts += 1;
-  }
-
-  for (const row of catalog.pickupPoints) {
-    await setDocument('pickup_points', row.pickupId, { ...row });
-    counts.pickup_points += 1;
-  }
-
-  for (const row of catalog.products) {
-    await setDocument('products', row.productId, { ...row });
-    counts.products += 1;
-  }
-
-  for (const row of catalog.skus) {
-    await setDocument('skus', row.skuId, { ...row });
-    counts.skus += 1;
-  }
 
   return { counts, productCount: counts.products };
 }
